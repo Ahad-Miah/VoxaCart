@@ -15,7 +15,7 @@ export default function Banner() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
-    }, 5000);
+    }, 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -75,7 +75,7 @@ export default function Banner() {
                 ))}
               </div>
               <p className="text-sm font-bold text-gray-400 dark:text-gray-500">
-                <span className="text-gray-900 dark:text-white">12.5k+</span> shoppers used voice today
+                <span className="text-white dark:text-white">12.5k+</span> shoppers used voice today
               </p>
             </div>
           </motion.div>
@@ -126,8 +126,8 @@ export default function Banner() {
                     <Search size={24} />
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase font-black tracking-widest text-gray-400 italic">Search Match</p>
-                    <p className="font-black text-lg italic">99.8% Accuracy</p>
+                    <p className="text-[10px] uppercase font-black tracking-widest text-white italic">Search Match</p>
+                    <p className="text-white text-lg italic">99.8% Accuracy</p>
                   </div>
                 </div>
               </div>
