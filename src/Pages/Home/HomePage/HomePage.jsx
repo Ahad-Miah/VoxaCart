@@ -5,6 +5,7 @@ import FeaturedCategory from '../FeaturedCategory/FeaturedCategory';
 import FeaturedProducts from '../FaturedProduct/FeaturedProduct';
 import HowItWorks from '../HowItWorks/HowItWorks';
 import MultiVendor from '../MultiVendor/Multivendor';
+import Statistics from '../Statistics/Statistics';
 
 const HomePage = () => {
     return (
@@ -14,6 +15,7 @@ const HomePage = () => {
             <section><FeaturedProducts></FeaturedProducts></section>
             <section><HowItWorks></HowItWorks></section>
             <section><MultiVendor></MultiVendor></section>
+            <section><Statistics></Statistics></section>
         </div>
     );
 };
