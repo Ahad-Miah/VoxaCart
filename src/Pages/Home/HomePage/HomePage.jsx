@@ -8,6 +8,7 @@ import MultiVendor from '../MultiVendor/Multivendor';
 import Statistics from '../Statistics/Statistics';
 import Reviews from '../Reviews/Reviews';
 import FaqSection from '../Faq/FaqSection';
+import Newsletter from '../Newsletter/Newsletter';
 
 const HomePage = () => {
     return (
@@ -20,6 +21,7 @@ const HomePage = () => {
             <section><Statistics></Statistics></section>
             <section><Reviews></Reviews></section>
             <section><FaqSection></FaqSection></section>
+            <section><Newsletter></Newsletter></section>
         </div>
     );
 };
