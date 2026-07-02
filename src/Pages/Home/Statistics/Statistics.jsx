@@ -52,7 +52,7 @@ const StatsSection = () => {
       <div className="absolute top-1/2 left-1/3 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/5 blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-purple-600/5 blur-[130px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-8xl mx-auto relative z-10">
         
         {/* --- SECTION HEADER --- */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-8">

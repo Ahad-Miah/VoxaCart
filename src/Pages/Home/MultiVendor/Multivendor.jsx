@@ -41,7 +41,7 @@ const MultiVendor = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   
-  // ফর্ম ডেটা স্টেট
+ 
   const [formData, setFormData] = useState({
     fullName: '', email: '', phone: '',
     storeName: '', storeCategory: '', storeAddress: '',
@@ -61,16 +61,16 @@ const MultiVendor = () => {
   
   const handleClose = () => {
     setIsModalOpen(false);
-    setCurrentStep(1); // মোডাল বন্ধ হলে আবার ১ম ধাপে ফিরে যাবে
+    setCurrentStep(1); 
   };
 
   return (
     <section className="bg-[#09090d] text-white py-20 px-6 md:px-12 relative overflow-hidden select-none border-t border-gray-950">
       
-      {/* ব্যাকগ্রাউন্ডের গ্লোবাল নিয়ন লাইট */}
+      
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-8xl mx-auto relative z-10">
         
         {/* --- SECTION HEADER --- */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -83,7 +83,7 @@ const MultiVendor = () => {
             </p>
           </div>
           
-          {/* বাটন গ্রুপ */}
+         
           <div className="flex items-center gap-4 flex-wrap">
             <button 
               onClick={() => setIsModalOpen(true)}
@@ -106,7 +106,7 @@ const MultiVendor = () => {
               key={vendor.id}
               className="bg-[#11131c]/40 border border-gray-900/60 rounded-[32px] relative group hover:border-indigo-500/40 transition-all duration-500 hover:scale-[1.02] shadow-2xl overflow-hidden flex flex-col justify-between"
             >
-              {/* হোভার অ্যানিমেটেড গ্রাডিয়েন্ট গ্লো */}
+             
               <div className={`absolute inset-0 bg-gradient-to-br ${vendor.gradient} opacity-20 group-hover:opacity-100 transition-opacity duration-500 rounded-[32px] pointer-events-none`} />
 
               <div className="relative z-10">
