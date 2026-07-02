@@ -200,7 +200,7 @@ export default function FeaturedProducts() {
 
   return (
     <section className="py-24 bg-white dark:bg-gray-950" id="shop">
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
+      <div className="max-w-8xl mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row gap-12">
         
           {/* Category Sidebar */}
