@@ -7,6 +7,7 @@ import HowItWorks from '../HowItWorks/HowItWorks';
 import MultiVendor from '../MultiVendor/Multivendor';
 import Statistics from '../Statistics/Statistics';
 import Reviews from '../Reviews/Reviews';
+import FaqSection from '../Faq/FaqSection';
 
 const HomePage = () => {
     return (
@@ -18,6 +19,7 @@ const HomePage = () => {
             <section><MultiVendor></MultiVendor></section>
             <section><Statistics></Statistics></section>
             <section><Reviews></Reviews></section>
+            <section><FaqSection></FaqSection></section>
         </div>
     );
 };
