@@ -136,17 +136,23 @@ const Navbar = () => {
             {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
           <div className="h-6 w-[1px] bg-gray-300 dark:bg-gray-800"></div>
-          <div className="bg-gray-100 dark:bg-[#161922] border border-gray-200 dark:border-gray-800/60 rounded-2xl p-1.5 pr-5 flex items-center space-x-3 select-none">
+          {/* <div className="bg-gray-100 dark:bg-[#161922] border border-gray-200 dark:border-gray-800/60 rounded-2xl p-1.5 pr-5 flex items-center space-x-3 select-none">
             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" className="w-10 h-10 rounded-xl object-cover" />
             <div className="flex flex-col text-left">
               <span className="text-[9px] text-gray-400 dark:text-gray-500 font-black italic tracking-widest leading-none mb-0.5">WELCOME</span>
               <span className="text-xs font-black italic text-gray-800 dark:text-white tracking-wide">Ahad Ahmed</span>
             </div>
-          </div>
+          </div> */}
+            <div>
+          <Link to={'/login'}><button className='hidden lg:flex items-center  group relative bg-indigo-600 text-white px-8 py-2 rounded-[2rem] font-bold text-lg hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-600/30 overflow-hidden'>Login</button></Link>
+          
         </div>
+        </div>
+      
 
         {/* Mobile Hamburger */}
         <div className="lg:hidden flex items-center">
+          <Link></Link>
           <button onClick={() => setIsOpen(true)} className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white focus:outline-none">
             <Menu className="w-6 h-6" />
           </button>
@@ -243,7 +249,7 @@ const Navbar = () => {
                 {transcript || (isListening ? 'Say something...' : 'Click mic to speak')}
               </p>
               
-              {/* 'Try Again' Action Text Button (কথা বলা শেষ হলে এটি ভেসে উঠবে) */}
+              
               {isFinished && (
                 <button 
                   onClick={startListening}
