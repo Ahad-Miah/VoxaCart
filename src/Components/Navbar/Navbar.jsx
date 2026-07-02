@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ShoppingCart, Mic, Sun, Moon, Sparkles, RefreshCw } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   
-  // Voice Modal States
+  
   const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [isListening, setIsListening] = useState(false);
-  const [isFinished, setIsFinished] = useState(false); // ট্র্যাক করবে কথা শেষ হয়েছে কিনা
+  const [isFinished, setIsFinished] = useState(false); 
   
   const recognitionRef = useRef(null);
-  const navLinks = ['ALL PRODUCTS', 'CATEGORIES', 'VENDORS', 'SUPPORT'];
+  const navLinks = ['HOME','ALL PRODUCTS', 'CATEGORIES', 'VENDORS', 'SUPPORT'];
 
-  // Theme Toggle Logic
+ 
   useEffect(() => {
     const root = window.document.documentElement;
     if (isDarkMode) {
@@ -26,13 +27,12 @@ const Navbar = () => {
     }
   }, [isDarkMode]);
 
-  // Voice Recognition Initialization (Optimized)
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const rec = new SpeechRecognition();
-      rec.continuous = false;       // কথা শেষ করে থামা মাত্রই অটোমেটিক স্টপ হবে
-      rec.interimResults = true;    // রিয়েল-টাইমে খুব দ্রুত রেজাল্ট দেখাবে
+      rec.continuous = false;       
+      rec.interimResults = true;  
 
       rec.onstart = () => {
         setIsListening(true);
@@ -60,18 +60,18 @@ const Navbar = () => {
 
       rec.onend = () => {
         setIsListening(false);
-        setIsFinished(true); // কথা বলা শেষ হয়েছে চিহ্নিত করবে
+        setIsFinished(true); 
       };
 
       recognitionRef.current = rec;
     }
   }, []);
 
-  // স্টার্ট বা রি-স্টার্ট করার ফাংশন (আগের ডেটা ক্লিয়ার করে নতুন করে শুরু করবে)
+  
   const startListening = () => {
     if (!recognitionRef.current) return;
     try {
-      recognitionRef.current.stop(); // সেফটির জন্য আগে বন্ধ করা হলো
+      recognitionRef.current.stop();
     } catch (e) {}
     
     setTranscript('');
@@ -84,7 +84,7 @@ const Navbar = () => {
     setIsOpen(false);
     setTranscript('');
     setIsFinished(false);
-    // পপআপ খোলার সাথে সাথে অটো লিসেনিং শুরু হবে
+    
     setTimeout(() => {
       if (recognitionRef.current) recognitionRef.current.start();
     }, 300);
@@ -99,10 +99,11 @@ const Navbar = () => {
 
   return (
     <>
-      {/* --- NAVBAR MAIN CONTAINER --- */}
+     
       <nav className="bg-[#09090d] dark:bg-[#09090d] bg-white text-gray-800 dark:text-white px-6 py-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-900 sticky top-0 z-50 transition-colors duration-300">
         {/* Left: Logo */}
-        <div className="flex items-center space-x-3">
+        <Link to={'/'}>
+         <div className="flex items-center space-x-3">
           <div className="bg-[#5046e5] p-2.5 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
             <ShoppingCart className="w-5 h-5 text-white" />
           </div>
@@ -110,13 +111,19 @@ const Navbar = () => {
             VoxaCart<span className="text-[#7c74ff]">AI</span>
           </span>
         </div>
+        </Link>
+       
 
         {/* Center: Desktop Links */}
         <div className="hidden lg:flex items-center space-x-10 text-xs font-black italic tracking-wider text-gray-500 dark:text-gray-400">
           {navLinks.map((link) => (
-            <a key={link} href={`#${link.toLowerCase().replace(' ', '-')}`} className="hover:text-gray-900 dark:hover:text-white transition duration-200">
+            <NavLink
+            className={({ isActive }) =>
+                isActive ? " text-white font-bold text-[16px] underline " : ""}
+            to={`/${link=="HOME"?'':link}`}> <a key={link} href={`#${link.toLowerCase().replace(' ', '-')}`} className="hover:text-gray-900 dark:hover:text-white transition duration-200">
               {link}
-            </a>
+            </a></NavLink>
+            
           ))}
         </div>
 
