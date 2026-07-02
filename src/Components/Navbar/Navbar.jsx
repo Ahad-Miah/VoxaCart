@@ -3,6 +3,7 @@ import { Menu, X, ShoppingCart, Mic, Sun, Moon, Sparkles, RefreshCw } from 'luci
 import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
+  const navLinks = ['HOME','ALL PRODUCTS', 'CATEGORIES', 'VENDORS', 'SUPPORT'];
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   
@@ -13,7 +14,6 @@ const Navbar = () => {
   const [isFinished, setIsFinished] = useState(false); 
   
   const recognitionRef = useRef(null);
-  const navLinks = ['HOME','ALL PRODUCTS', 'CATEGORIES', 'VENDORS', 'SUPPORT'];
 
  
   useEffect(() => {
@@ -100,7 +100,7 @@ const Navbar = () => {
   return (
     <>
      
-      <nav className="bg-[#09090d] dark:bg-[#09090d] bg-white text-gray-800 dark:text-white px-6 py-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-900 sticky top-0 z-50 transition-colors duration-300">
+      <nav className="bg-[#09090d] dark:bg-[#09090d] bg-white text-gray-800 dark:text-white px-10 py-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-900 sticky top-0 z-50 transition-colors duration-300">
         {/* Left: Logo */}
         <Link to={'/'}>
          <div className="flex items-center space-x-3">
@@ -116,13 +116,13 @@ const Navbar = () => {
 
         {/* Center: Desktop Links */}
         <div className="hidden lg:flex items-center space-x-10 text-xs font-black italic tracking-wider text-gray-500 dark:text-gray-400">
-          {navLinks.map((link) => (
+          {navLinks.map((link,idx) => (
             <NavLink
             className={({ isActive }) =>
                 isActive ? " text-white font-bold text-[16px] underline " : ""}
-            to={`/${link=="HOME"?'':link}`}> <a key={link} href={`#${link.toLowerCase().replace(' ', '-')}`} className="hover:text-gray-900 dark:hover:text-white transition duration-200">
+            to={`/${link=="HOME"?'':link}`}> <p key={idx} href={`#${link.toLowerCase().replace(' ', '-')}`} className="hover:text-gray-900 dark:hover:text-white transition duration-200">
               {link}
-            </a></NavLink>
+            </p></NavLink>
             
           ))}
         </div>

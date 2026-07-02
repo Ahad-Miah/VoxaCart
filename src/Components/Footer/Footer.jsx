@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#09090d] text-white pt-16 pb-8 px-6 md:px-12 border-t border-gray-950 transition-colors duration-300">
       {/* --- UPPER FOOTER CONTENT GRID --- */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+      <div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
         
         {/* COLUMN 1: Logo & Tagline */}
         <div className="flex flex-col space-y-6">
