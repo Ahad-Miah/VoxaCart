@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Lock, Terminal, ArrowRight, ShieldCheck, KeyRound, ScanEye } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -74,7 +75,7 @@ const Login = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Email Field */}
               <div className="space-y-1.5 group">
-                <label className="text-[10px] font-mono text-gray-500 tracking-widest uppercase block pl-1">Network Email</label>
+                <label className="text-[10px] font-mono text-gray-500 tracking-widest uppercase block pl-1">Email</label>
                 <div className="flex items-center gap-3 bg-black/40 border border-gray-900 focus-within:border-[#7c74ff]/40 px-4 py-3.5 rounded-xl transition-all duration-300">
                   <Mail className="w-4 h-4 text-gray-600 group-focus-within:text-[#7c74ff] transition-colors" />
                   <input 
@@ -91,7 +92,7 @@ const Login = () => {
               {/* Password Field */}
               <div className="space-y-1.5 group">
                 <div className="flex justify-between items-center pl-1">
-                  <label className="text-[10px] font-mono text-gray-500 tracking-widest uppercase block">Passkey Matrix</label>
+                  <label className="text-[10px] font-mono text-gray-500 tracking-widest uppercase block">Passkey</label>
                   <span className="text-[10px] text-gray-600 hover:text-indigo-400 cursor-pointer font-mono font-medium transition-colors">Forgot?</span>
                 </div>
                 <div className="flex items-center gap-3 bg-black/40 border border-gray-900 focus-within:border-[#7c74ff]/40 px-4 py-3.5 rounded-xl transition-all duration-300">
@@ -135,12 +136,12 @@ const Login = () => {
           <div className="text-center pt-6 border-t border-gray-900/40">
             <p className="text-xs text-gray-500 font-medium">
               New to the system grid?{' '}
-              <a 
-                href="/register" 
+              <Link 
+                to={'/register'}
                 className="text-[#7c74ff] hover:text-purple-400 font-bold underline underline-offset-4 cursor-pointer transition-colors font-mono tracking-wide ml-1"
               >
                 Create an Account
-              </a>
+              </Link>
             </p>
           </div>
         </div>
