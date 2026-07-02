@@ -3,7 +3,7 @@ import { Menu, X, ShoppingCart, Mic, Sun, Moon, Sparkles, RefreshCw } from 'luci
 import { Link, NavLink } from 'react-router-dom';
 
 const Navbar = () => {
-  const navLinks = ['HOME','ALL PRODUCTS', 'CATEGORIES', 'VENDORS', 'SUPPORT'];
+  const navLinks = ['HOME','ALL PRODUCTS', 'PROTOCOL', 'VENDORS', 'SUPPORT'];
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
   
