@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const {login,setLoading }=useContext(AuthContext);
+  const {login,setLoading,loginWithGoogle }=useContext(AuthContext);
   const navigate=useNavigate();
 
   const handleSubmit = (e) => {
@@ -25,6 +25,11 @@ const Login = () => {
             });
     
   };
+
+  const googleLogin=()=>{
+    loginWithGoogle()
+    navigate(location?.state ? location.state : "/");
+  }
 
   return (
     <div className="bg-[#030305] text-gray-300 min-h-screen font-sans selection:bg-[#7c74ff]/30 selection:text-white flex items-center justify-center p-4 md:p-8 relative overflow-hidden select-none">
@@ -140,7 +145,7 @@ const Login = () => {
             </div>
 
             {/* Google Login */}
-            <button className="w-full bg-black/40 border border-gray-900 hover:border-gray-800 text-gray-400 hover:text-white py-3.5 rounded-xl font-mono text-[10px] font-black tracking-widest transition-all duration-300 flex items-center justify-center gap-3 relative overflow-hidden group">
+            <button onClick={googleLogin} className="w-full bg-black/40 border border-gray-900 hover:border-gray-800 text-gray-400 hover:text-white py-3.5 rounded-xl font-mono text-[10px] font-black tracking-widest transition-all duration-300 flex items-center justify-center gap-3 relative overflow-hidden group">
               <svg className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110 duration-300" viewBox="0 0 24 24">
                 <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l3.227-3.227C18.415 1.156 15.58.5 12.24.5c-6.353 0-11.5 5.147-11.5 11.5s5.147 11.5 11.5 11.5c6.63 0 11.033-4.663 11.033-11.2 0-.756-.082-1.334-.185-1.815H12.24z"/>
               </svg>

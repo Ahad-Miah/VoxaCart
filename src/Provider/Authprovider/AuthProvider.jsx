@@ -1,9 +1,10 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 import { auth } from '../../utils/firebase.init';
 import axios from 'axios';
 
 export const AuthContext=createContext()
+const provider = new GoogleAuthProvider;
 const AuthProvider = ({children}) => {
 
      const [loading, setLoading] = useState(true);
@@ -33,6 +34,11 @@ const AuthProvider = ({children}) => {
         setLoading(true);
         return signOut(auth)
     }
+    // google login
+
+    const loginWithGoogle=()=>{
+return signInWithPopup(auth, provider)
+    }
 
     // ovserver
       useEffect(() => {
@@ -56,6 +62,7 @@ const AuthProvider = ({children}) => {
        Signout,
        setLoading,
        login,
+       loginWithGoogle,
        user,
        loading
 

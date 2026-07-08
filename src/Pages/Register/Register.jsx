@@ -7,7 +7,7 @@ import { AuthContext } from '../../Provider/Authprovider/AuthProvider';
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const Register = () => {
   
-  const { register, handleUpdateProfile,setLoading,loading } = useContext(AuthContext);
+  const { register, handleUpdateProfile,setLoading,loading,loginWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -77,11 +77,15 @@ const Register = () => {
       setLoading(false);
     }
   };
+  const googleLogin=()=>{
+    loginWithGoogle();
+    navigate('/');
+  }
 
   return (
     <div className="bg-[#030305] text-gray-300 min-h-screen font-sans selection:bg-[#7c74ff]/30 selection:text-white flex items-center justify-center p-4 md:p-8 relative overflow-hidden select-none">
       
-      {/* গ্লোবাল সাইবার রেজিস্ট্রেশন এনিমেশন কীফ্রেম (ডিজাইন আনটাচড) */}
+     
       <style>{`
         @keyframes profile-float {
           0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 15px rgba(168,85,247,0.2)); }
@@ -113,11 +117,11 @@ const Register = () => {
         .animate-upload-stream-2 { animation: upload-stream 8s linear infinite; animation-delay: 3s; }
       `}</style>
 
-      {/* ব্যাকগ্রাউন্ড নিয়ন লাইটস */}
+      
       <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-purple-600/5 blur-[140px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-indigo-600/5 blur-[140px] rounded-full pointer-events-none" />
 
-      {/* --- মেইন কন্টেইনার গ্রিড --- */}
+     
       <div className="w-full max-w-6xl flex flex-col-reverse lg:grid lg:grid-cols-12 bg-[#08090e]/60 border border-gray-900 rounded-[32px] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8)] backdrop-blur-xl relative z-10">
         
         {/* ================= LEFT COLUMN: REGISTER FORM ================= */}
@@ -168,7 +172,7 @@ const Register = () => {
                   <User className="w-4 h-4 text-gray-600 group-focus-within:text-purple-400 transition-colors" />
                   <input 
                     type="text" 
-                    placeholder="Alex Mercer" 
+                    placeholder="Enter your Name" 
                     className="bg-transparent text-xs text-white placeholder-gray-600 focus:outline-none w-full font-medium"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -209,7 +213,7 @@ const Register = () => {
                 </div>
               </div>
 
-              {/* Submit Button (Loading স্টেট দিয়ে ডিসেবল করার ফিচার অ্যাড করা হয়েছে) */}
+              
               <button 
                 type="submit" 
                 disabled={loading}
@@ -226,7 +230,7 @@ const Register = () => {
             </div>
 
             {/* Google Signup */}
-            <button className="w-full bg-black/40 border border-gray-900 hover:border-gray-800 text-gray-400 hover:text-white py-3.5 rounded-xl font-mono text-[10px] font-black tracking-widest transition-all duration-300 flex items-center justify-center gap-3 relative overflow-hidden group">
+            <button onClick={googleLogin} className="w-full bg-black/40 border border-gray-900 hover:border-gray-800 text-gray-400 hover:text-white py-3.5 rounded-xl font-mono text-[10px] font-black tracking-widest transition-all duration-300 flex items-center justify-center gap-3 relative overflow-hidden group">
               <svg className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110 duration-300" viewBox="0 0 24 24">
                 <path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.275 1.565-1.88 4.604-6.887 4.604-4.33 0-7.866-3.577-7.866-8s3.536-8 7.866-8c2.46 0 4.105 1.025 5.047 1.926l3.227-3.227C18.415 1.156 15.58.5 12.24.5c-6.353 0-11.5 5.147-11.5 11.5s5.147 11.5 11.5 11.5c6.63 0 11.033-4.663 11.033-11.2 0-.756-.082-1.334-.185-1.815H12.24z"/>
               </svg>
@@ -234,7 +238,7 @@ const Register = () => {
             </button>
           </div>
 
-          {/* লগইন পেজে ব্যাক করার লিংক */}
+         
           <div className="text-center pt-6 border-t border-gray-900/40">
             <p className="text-xs text-gray-500 font-medium">
               Already have an active identity?{' '}
@@ -251,7 +255,7 @@ const Register = () => {
         {/* ================= RIGHT/TOP COLUMN: INTERACTIVE PROFILE SYNC ANIMATION ================= */}
         <div className="w-full lg:col-span-6 bg-[#05060a] p-8 lg:p-12 border-b lg:border-b-0 lg:border-l border-gray-900/60 relative flex flex-col justify-center items-center overflow-hidden min-h-[350px] lg:min-h-[550px]">
           
-          {/* ব্যাকগ্রাউন্ড আপলোড ডাটা স্ট্রিম লাইন */}
+         
           <div className="absolute left-1/4 top-0 w-[1px] h-full bg-gradient-to-b from-transparent via-purple-500/10 to-transparent overflow-hidden">
             <div className="w-full h-24 bg-gradient-to-b from-purple-400 to-transparent animate-upload-stream-1" />
           </div>
@@ -259,7 +263,7 @@ const Register = () => {
             <div className="w-full h-32 bg-gradient-to-b from-[#7c74ff] to-transparent animate-upload-stream-2" />
           </div>
 
-          {/* কোর গ্লোয়িং প্রোфাইল সিঙ্ক স্টেশন */}
+       
           <div className="relative w-80 h-80 flex items-center justify-center scale-75 sm:scale-90 md:scale-100 transition-transform">
             
             <div className="absolute inset-0 border border-purple-500/5 rounded-full animate-pulse-expand" />
