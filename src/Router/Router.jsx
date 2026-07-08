@@ -11,6 +11,10 @@ import UserOverview from '../Pages/Dashboard/RightSide/UserOverview/UserOverview
 import UserCart from '../Pages/Dashboard/RightSide/userCart/UserCart';
 import WishList from '../Pages/Dashboard/RightSide/WishList/WishList';
 import Orders from '../Pages/Dashboard/RightSide/Orders/Orders';
+import VendorStats from '../Pages/Dashboard/RightSide/VendorStats/VendorStats';
+import AddProduct from '../Pages/Dashboard/RightSide/AddProduct/AddProduct';
+import ManageProducts from '../Pages/Dashboard/RightSide/ManageProducts/ManageProducts';
+import VendorAICore from '../Pages/Dashboard/RightSide/VendorAICore/VendorAICore';
 
 const Router = createBrowserRouter([
   {
@@ -62,6 +66,22 @@ const Router = createBrowserRouter([
             {
                 path:'orders',
                 element:<Orders></Orders>
+            },
+            {
+                path:'vendor-stats',
+                element:<VendorStats></VendorStats>
+            },
+            {
+                path:'add-product',
+                element:<AddProduct></AddProduct>
+            },
+             {
+                path:'my-products',
+                element:<ManageProducts></ManageProducts>
+            },
+             {
+                path:'vendor-ai',
+                element:<VendorAICore></VendorAICore>
             }
         ]
      },
