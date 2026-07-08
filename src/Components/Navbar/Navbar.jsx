@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Menu, X, ShoppingCart, Mic, Sun, Moon, Sparkles, RefreshCw } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
+import { AuthContext } from '../../Provider/Authprovider/AuthProvider';
 
 const Navbar = () => {
   const navLinks = ['HOME','ALL PRODUCTS', 'PROTOCOL', 'VENDORS', 'SUPPORT'];
@@ -15,7 +16,8 @@ const Navbar = () => {
   
   const recognitionRef = useRef(null);
 
- 
+ const {Signout,user,loading}=useContext(AuthContext);
+console.log(user);
   useEffect(() => {
     const root = window.document.documentElement;
     if (isDarkMode) {
@@ -144,8 +146,38 @@ const Navbar = () => {
             </div>
           </div> */}
             <div>
-          <Link to={'/login'}><button className='hidden lg:flex items-center  group relative bg-indigo-600 text-white px-8 py-2 rounded-[2rem] font-bold text-lg hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-600/30 overflow-hidden'>Login</button></Link>
+              {
+                loading?<div className="absolute top-0 left-0 right-0 h-[3px] bg-gray-950 overflow-hidden z-50">
+      
+      <div 
+        className="h-full bg-gradient-to-r from-transparent via-[#7c74ff] to-purple-500 shadow-[0_0_10px_#7c74ff] animate-pulse"
+        style={{
+          width: '40%',
+          animation: 'nav-scan 1.5s linear infinite'
+        }}
+      />
+      
+      
+      <style>{`
+        @keyframes nav-scan {
+          0% { transform: translateX(-150%); }
+          100% { transform: translateX(250%); }
+        }
+      `}</style>
+    </div>
+    :<>
+    {
+                user
+                ? <button onClick={Signout} className='hidden lg:flex items-center  group relative bg-indigo-600 text-white px-8 py-2 rounded-[2rem] font-bold text-lg hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-600/30 overflow-hidden'>SignOut</button>
+                :<Link to={'/login'}><button className='hidden lg:flex items-center  group relative bg-indigo-600 text-white px-8 py-2 rounded-[2rem] font-bold text-lg hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-600/30 overflow-hidden'>Login</button>
+          </Link>
           
+              }
+    </> 
+              }
+             
+          
+         
         </div>
         </div>
       

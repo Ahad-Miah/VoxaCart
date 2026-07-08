@@ -1,13 +1,29 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Mail, Lock, Terminal, ArrowRight, ShieldCheck, KeyRound, ScanEye } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Provider/Authprovider/AuthProvider';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const {login,setLoading }=useContext(AuthContext);
+  const navigate=useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Initiating Auth Verification Loop...', formData);
+    login(formData.email, formData.password)
+            .then(res => {
+                e.target.reset();
+                // console.log(res);
+                toast.success("Logged in! Congratulations!");
+                navigate(location?.state ? location.state : "/");
+            })
+            .catch(err => {
+                console.log(err)
+                setLoading(false);
+                toast.error("Error !Invalid Email or Password!");
+            });
+    
   };
 
   return (

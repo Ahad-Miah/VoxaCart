@@ -5,6 +5,7 @@ import AllProducts from '../Pages/AllProducts/AllProducts';
 import SecurityPage from '../Pages/SecurityPage/SecurityPage';
 import Login from '../Pages/Login/Login';
 import Register from '../Pages/Register/Register';
+import Dashboard from '../Pages/Dashboard/Dashboard';
 
 const Router = createBrowserRouter([
   {
@@ -32,7 +33,16 @@ const Router = createBrowserRouter([
         element: <Register></Register>
       }
     ]
-  }
+  },
+   {
+        path: 'dashboard',
+        element:<Dashboard></Dashboard> ,
+        children: [
+            {
+                
+            }
+        ]
+     },
 ]);
 
 export default Router;
