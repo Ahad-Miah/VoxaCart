@@ -8,6 +8,9 @@ import Register from '../Pages/Register/Register';
 import Dashboard from '../Pages/Dashboard/Dashboard';
 import MyProfile from '../Pages/Dashboard/MyProfile/MyProfile';
 import UserOverview from '../Pages/Dashboard/RightSide/UserOverview/UserOverview';
+import UserCart from '../Pages/Dashboard/RightSide/userCart/UserCart';
+import WishList from '../Pages/Dashboard/RightSide/WishList/WishList';
+import Orders from '../Pages/Dashboard/RightSide/Orders/Orders';
 
 const Router = createBrowserRouter([
   {
@@ -47,6 +50,18 @@ const Router = createBrowserRouter([
             {
                 path:'userOverview',
                 element:<UserOverview></UserOverview>
+            }
+            , {
+                path:'cart',
+                element:<UserCart></UserCart>
+            },
+            {
+                path:'wishlist',
+                element:<WishList></WishList>
+            },
+            {
+                path:'orders',
+                element:<Orders></Orders>
             }
         ]
      },
