@@ -15,6 +15,11 @@ import VendorStats from '../Pages/Dashboard/RightSide/VendorStats/VendorStats';
 import AddProduct from '../Pages/Dashboard/RightSide/AddProduct/AddProduct';
 import ManageProducts from '../Pages/Dashboard/RightSide/ManageProducts/ManageProducts';
 import VendorAICore from '../Pages/Dashboard/RightSide/VendorAICore/VendorAICore';
+import AdminOverview from '../Pages/Dashboard/RightSide/AdminRoutes/AdminOverview/AdminOverview';
+import ManageUsers from '../Pages/Dashboard/RightSide/AdminRoutes/ManageUsers/ManageUsers';
+import VendorApplications from '../Pages/Dashboard/RightSide/AdminRoutes/VendorApplications/VendorApplications';
+import ProductAudit from '../Pages/Dashboard/RightSide/AdminRoutes/ProductAudit/ProductAudit';
+import ReviewControl from '../Pages/Dashboard/RightSide/AdminRoutes/ReviewControl/ReviewControl';
 
 const Router = createBrowserRouter([
   {
@@ -82,6 +87,26 @@ const Router = createBrowserRouter([
              {
                 path:'vendor-ai',
                 element:<VendorAICore></VendorAICore>
+            },
+            {
+                path:'admin-overview',
+                element:<AdminOverview></AdminOverview>
+            },
+            {
+                path:'manage-users',
+                element:<ManageUsers></ManageUsers>
+            },
+            {
+                path:'vendor-apps',
+                element:<VendorApplications></VendorApplications>
+            },
+             {
+                path:'product-audit',
+                element:<ProductAudit></ProductAudit>
+            },
+             {
+                path:'review-control',
+                element:<ReviewControl></ReviewControl>
             }
         ]
      },
