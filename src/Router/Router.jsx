@@ -6,6 +6,7 @@ import SecurityPage from '../Pages/SecurityPage/SecurityPage';
 import Login from '../Pages/Login/Login';
 import Register from '../Pages/Register/Register';
 import Dashboard from '../Pages/Dashboard/Dashboard';
+import MyProfile from '../Pages/Dashboard/MyProfile/MyProfile';
 
 const Router = createBrowserRouter([
   {
@@ -39,7 +40,8 @@ const Router = createBrowserRouter([
         element:<Dashboard></Dashboard> ,
         children: [
             {
-                
+                path:'myProfile',
+                element:<MyProfile></MyProfile>
             }
         ]
      },
