@@ -13,7 +13,7 @@ const LeftSide = ({ isSidebarOpen, setIsSidebarOpen }) => {
     {
       title: "User Matrix Console",
       links: [
-        { path: "/dashboard", label: "Dashboard Overview", icon: LayoutDashboard, end: true },
+        { path: "/dashboard/userOverview", label: "Dashboard Overview", icon: LayoutDashboard, end: true },
         { path: "/dashboard/myProfile", label: "My Profile slot", icon: User },
         { path: "/dashboard/cart", label: "My Cart Node", icon: ShoppingCart },
         { path: "/dashboard/wishlist", label: "Wishlist Vault", icon: Heart },
