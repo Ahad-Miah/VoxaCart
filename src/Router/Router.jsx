@@ -21,6 +21,7 @@ import VendorApplications from '../Pages/Dashboard/RightSide/AdminRoutes/VendorA
 import ProductAudit from '../Pages/Dashboard/RightSide/AdminRoutes/ProductAudit/ProductAudit';
 import ReviewControl from '../Pages/Dashboard/RightSide/AdminRoutes/ReviewControl/ReviewControl';
 import UpdateProduct from '../Pages/Dashboard/RightSide/updateProduct/UpdateProduct';
+import ProductDetails from '../Pages/ProductDetails/ProductDetails';
 
 const Router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const Router = createBrowserRouter([
        {
         path: '/register',
         element: <Register></Register>
+      },
+      {
+        path: '/details/:id',
+        element: <ProductDetails></ProductDetails>
       }
     ]
   },
