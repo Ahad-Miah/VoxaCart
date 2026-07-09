@@ -3,6 +3,7 @@ import { Edit3, Trash2 } from 'lucide-react';
 import axios from 'axios';
 import { AuthContext } from '../../../../Provider/Authprovider/AuthProvider';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const ManageProducts = () => {
 
@@ -29,7 +30,60 @@ const ManageProducts = () => {
 
   }, [user]);
 
-  // update product 
+  // delete product
+  const handleDelete = (product) => {
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: `You are about to delete "${product.name}". This action cannot be undone!`,
+    icon: 'warning',
+    showCancelButton: true, 
+    confirmButtonColor: '#d33', 
+    cancelButtonColor: '#3085d6', 
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel',
+    background: '#161925', 
+    color: '#fff'
+  }).then(async (result) => {
+    
+    
+    if (result.isConfirmed) {
+      try {
+       
+        setVendorProducts(prevProducts => 
+          prevProducts.filter(item => item._id !== product._id)
+        );
+
+        
+        const response = await axios.delete(`http://localhost:5000/product/${product._id}`);
+
+        if (response.data.deletedCount > 0) {
+          
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'Product has been removed from your inventory.',
+            icon: 'success',
+            background: '#161925',
+            color: '#fff',
+            confirmButtonColor: '#8b5cf6'
+          });
+        }
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        
+       
+        Swal.fire({
+          icon: 'error',
+          title: 'Server Error',
+          text: 'Failed to delete product from database. Please refresh.',
+          background: '#161925',
+          color: '#fff'
+        });
+      }
+    } 
+    
+  });
+};
 
 
   return ( 
@@ -183,7 +237,7 @@ const ManageProducts = () => {
                 
 
 
-                <button className="p-2.5 bg-black/40 border border-gray-900 hover:border-red-500/30 text-gray-400 hover:text-red-400 rounded-xl transition-all">
+                <button onClick={()=>handleDelete(product)} className="p-2.5 bg-black/40 border border-gray-900 hover:border-red-500/30 text-gray-400 hover:text-red-400 rounded-xl transition-all">
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
 
