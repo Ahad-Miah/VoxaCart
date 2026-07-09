@@ -1,20 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Laptop, Shirt, Home, Sparkles, Trophy, Heart, Watch, Camera } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Laptop, Shirt, Home, Sparkles, Trophy, Heart, Watch, Camera ,Star, ShoppingCart,  Eye, X, Check, ShieldCheck, Truck, RefreshCw, LayoutGrid, Cpu,    Filter, PocketKnife} from 'lucide-react';
+import axios from 'axios';
 
-const categories = [
-  { id: 1, name: 'Electronics', count: '120+', icon: <Laptop className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop' },
-  { id: 2, name: 'Fashion', count: '120+', icon: <Shirt className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=600&auto=format&fit=crop' },
-  { id: 3, name: 'Home & Living', count: '120+', icon: <Home className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?q=80&w=600&auto=format&fit=crop' },
-  { id: 4, name: 'Beauty', count: '120+', icon: <Sparkles className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600&auto=format&fit=crop' },
-  { id: 5, name: 'Sports', count: '120+', icon: <Trophy className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&auto=format&fit=crop' },
-  { id: 6, name: 'Health', count: '90+', icon: <Heart className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop' },
-  { id: 7, name: 'Accessories', count: '150+', icon: <Watch className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop' },
-  { id: 8, name: 'Gadgets', count: '80+', icon: <Camera className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?q=80&w=600&auto=format&fit=crop' },
-];
-
+// const categories = [
+//   { id: 1, name: 'Electronics', count: '120+', icon: <Laptop className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop' },
+//   { id: 2, name: 'Fashion', count: '120+', icon: <Shirt className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=600&auto=format&fit=crop' },
+//   { id: 3, name: 'Home & Living', count: '120+', icon: <Home className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1484101403633-562f891dc89a?q=80&w=600&auto=format&fit=crop' },
+//   { id: 4, name: 'Beauty', count: '120+', icon: <Sparkles className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=600&auto=format&fit=crop' },
+//   { id: 5, name: 'Sports', count: '120+', icon: <Trophy className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&auto=format&fit=crop' },
+//   { id: 6, name: 'Health', count: '90+', icon: <Heart className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=600&auto=format&fit=crop' },
+//   { id: 7, name: 'Accessories', count: '150+', icon: <Watch className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop' },
+//   { id: 8, name: 'Gadgets', count: '80+', icon: <Camera className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?q=80&w=600&auto=format&fit=crop' },
+// ];
+const icons = { Cpu, Shirt, Home, Sparkles, Trophy,Heart,PocketKnife };
 const FeaturedCategory = () => {
   const sliderRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    // fetch data
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/category');
+                setCategories(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
   // Auto Scroll Logic
   useEffect(() => {
@@ -90,8 +109,10 @@ const FeaturedCategory = () => {
           className="flex gap-6 overflow-x-auto scrollbar-none pb-4 snap-x snap-mandatory"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {categories.map((category) => (
-            <div 
+          {categories.map((category) =>{
+          const Icon = icons[category.icon] || Cpu;
+            return(
+               <div 
               key={category.id}
               className="min-w-[260px] sm:min-w-[280px] h-[360px] relative rounded-[32px] overflow-hidden group snap-start border border-gray-950 shadow-2xl transition-all duration-500 hover:scale-[1.02]"
             >
@@ -109,7 +130,7 @@ const FeaturedCategory = () => {
               <div className="absolute inset-0 p-6 flex flex-col justify-end space-y-3 z-10">
                 {/* Icon Box */}
                 <div className="w-10 h-10 bg-white/10 backdrop-blur-md border border-white/20 text-white rounded-xl flex items-center justify-center shadow-lg">
-                  {category.icon}
+                 <Icon></Icon>
                 </div>
                 
                 {/* Text Group */}
@@ -123,7 +144,9 @@ const FeaturedCategory = () => {
                 </div>
               </div>
             </div>
-          ))}
+            )
+          }     
+          )}
         </div>
 
       </div>
