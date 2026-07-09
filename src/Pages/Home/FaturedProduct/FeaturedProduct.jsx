@@ -1,195 +1,230 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star, ShoppingCart, Heart, Eye, X, Check, ShieldCheck, Truck, RefreshCw, LayoutGrid, Cpu, Shirt, Home, Sparkles, Trophy, Filter, PocketKnife } from 'lucide-react';
+import axios from 'axios';
 // import { cn } from '../../../lib/utils';
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 const icons = { Cpu, Shirt, Home, Sparkles, Trophy,Heart,PocketKnife };
 
 export default function FeaturedProducts() {
-    const  products= [
-    {
-      "id": "p1",
-      "name": "MacBook Pro M3 Max",
-      "description": "Unprecedented performance for the world's most demanding creative workflows.",
-      "price": 2499.00,
-      "category": "electronics",
-      "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80",
-      "vendor": "Apple Official",
-      "rating": 4.9,
-      "reviewsCount": 2405,
-      "stock": 12,
-      "sizes": ["14-inch", "16-inch"],
-      "colors": ["Space Black", "Silver"],
-      "material": "Recycled Aluminum",
-      "tags": ["Premium", "Professional", "Bestseller"]
-    },
-    {
-      "id": "p2",
-      "name": "Sony WH-1000XM5",
-      "description": "Leading noise cancellation and world-class sound quality.",
-      "price": 399.00,
-      "category": "electronics",
-      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
-      "vendor": "Sony Authorized",
-      "rating": 4.8,
-      "reviewsCount": 1840,
-      "stock": 45,
-      "colors": ["Silver", "Black"],
-      "material": "Eco-friendly Plastic & Synthetic Leather",
-      "tags": ["Wireless", "Audio", "Noise-Cancelling"]
-    },
-    {
-      "id": "p3",
-      "name": "Luxury Silk Evening Gown",
-      "description": "Handcrafted pure silk gown for unforgettable moments.",
-      "price": 850.00,
-      "category": "fashion",
-      "image": "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&q=80",
-      "vendor": "Elegance Boutique",
-      "rating": 4.7,
-      "reviewsCount": 120,
-      "stock": 5,
-      "sizes": ["XS", "S", "M", "L"],
-      "colors": ["Emerald Green", "Midnight Blue", "Crimson"],
-      "material": "100% Pure Mulberry Silk",
-      "tags": ["Designer", "Luxury", "Handmade"]
-    },
-    {
-      "id": "p4",
-      "name": "Leather Lounge Chair",
-      "description": "Ergonomic design meets mid-century modern aesthetic.",
-      "price": 1200.00,
-      "category": "home",
-      "image": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80",
-      "vendor": "Modern Dwelling",
-      "rating": 4.6,
-      "reviewsCount": 450,
-      "stock": 8,
-      "colors": ["Cognac", "Black", "Charcoal"],
-      "material": "Top-grain Leather & Solid Walnut",
-      "tags": ["Eames-Style", "Leather", "Home"]
-    },
-    {
-      "id": "p5",
-      "name": "iPhone 15 Pro",
-      "description": "Titanium design, A17 Pro chip, customizable Action button.",
-      "price": 999.00,
-      "category": "electronics",
-      "image": "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=800&q=80",
-      "vendor": "Apple Official",
-      "rating": 4.9,
-      "reviewsCount": 3200,
-      "stock": 25,
-      "tags": ["New", "Premium"]
-    },
-    {
-      "id": "p6",
-      "name": "Nike Air Max 270",
-      "description": "Nike's first lifestyle Air Max brings you style, comfort and big attitude.",
-      "price": 150.00,
-      "category": "fashion",
-      "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80",
-      "vendor": "StyleHub",
-      "rating": 4.5,
-      "reviewsCount": 850,
-      "stock": 100,
-      "sizes": ["6", "7", "8", "9", "10", "11", "12"],
-      "colors": ["White", "Black/Red", "Blue/Grey"],
-      "material": "Breathable Mesh & Air Sole Unit",
-      "tags": ["Footwear", "Sportswear"]
-    },
-    {
-      "id": "p7",
-      "name": "Ceramic Table Lamp",
-      "description": "Handcrafted ceramic lamp with a linen shade.",
-      "price": 85.00,
-      "category": "home",
-      "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80",
-      "vendor": "HomeDecor Co.",
-      "rating": 4.8,
-      "reviewsCount": 120,
-      "stock": 30,
-      "tags": ["Lighting", "Minimal"]
-    },
-    {
-      "id": "p8",
-      "name": "Organic Face Serum",
-      "description": "Restore your skin's natural glow with our organic serum.",
-      "price": 45.00,
-      "category": "beauty",
-      "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80",
-      "vendor": "Pure Beauty",
-      "rating": 4.7,
-      "reviewsCount": 560,
-      "stock": 60,
-      "tags": ["Organic", "Skincare"]
-    },
-    {
-      "id": "p9",
-      "name": "Smart Watch Ultra",
-      "description": "The most rugged and capable Apple Watch ever.",
-      "price": 799.00,
-      "category": "electronics",
-      "image": "https://images.unsplash.com/photo-1434493907317-a46b53b81882?w=800&q=80",
-      "vendor": "Apple Official",
-      "rating": 4.8,
-      "reviewsCount": 1100,
-      "stock": 20,
-      "tags": ["Outdoor", "Tech"]
-    },
-    {
-      "id": "p10",
-      "name": "Men's Wool Coat",
-      "description": "Classic tailoring combined with premium wool blend.",
-      "price": 250.00,
-      "category": "fashion",
-      "image": "https://images.unsplash.com/photo-1539533377285-a41cc5900224?w=800&q=80",
-      "vendor": "StyleHub",
-      "rating": 4.6,
-      "reviewsCount": 230,
-      "stock": 15,
-      "sizes": ["S", "M", "L", "XL", "XXL"],
-      "colors": ["Camel", "Navy", "Grey"],
-      "material": "80% Virgin Wool, 20% Cashmere",
-      "tags": ["Winter", "Classy"]
-    },
-    {
-      "id": "p11",
-      "name": "Yoga Mat Premium",
-      "description": "Extra thick and non-slip surface for perfect grip.",
-      "price": 60.00,
-      "category": "sports",
-      "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
-      "vendor": "Active Gear",
-      "rating": 4.9,
-      "reviewsCount": 420,
-      "stock": 80,
-      "tags": ["Fitness", "Yoga"]
-    },
-    {
-      "id": "p12",
-      "name": "Wireless Charging Pad",
-      "description": "Fast 15W wireless charging for all Qi-enabled devices.",
-      "price": 25.00,
-      "category": "electronics",
-      "image": "https://images.unsplash.com/photo-1615526675159-e248c311e3e2?w=800&q=80",
-      "vendor": "TechBase",
-      "rating": 4.4,
-      "reviewsCount": 2100,
-      "stock": 200,
-      "tags": ["Essential", "Tech"]
-    }
-  ];
-  const  categories= [
-    { "id": "electronics", "name": "Electronics", "icon": "Cpu", "image": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80", "description": "Latest gadgets and high-tech equipment for your modern lifestyle." },
-    { "id": "fashion", "name": "Fashion", "icon": "Shirt", "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80", "description": "Define your style with our curated collection of premium apparel." },
-    { "id": "home", "name": "Home & Living", "icon": "Home", "image": "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800&q=80", "description": "Transform your space with elegant furniture and decor." },
-    { "id": "beauty", "name": "Beauty", "icon": "Sparkles", "image": "https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?w=800&q=80", "description": "Premium skincare and cosmetics for your daily radiance." },
-    { "id": "sports", "name": "Sports", "icon": "Trophy", "image": "https://images.unsplash.com/photo-1461896736544-7c9080fd4f38?w=800&q=80", "description": "Gear up for victory with professional-grade athletic equipment." },
-    { "id": "Health", "name": "Health", "icon": "Heart", "image": "https://images.unsplash.com/photo-1461896736544-7c9080fd4f38?w=800&q=80", "description": "Gear up for victory with professional-grade athletic equipment." },
-    { "id": "Accessories", "name": "Accessories", "icon": "Cpu", "image": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80", "description": "Gear up for victory with professional-grade athletic equipment." },
-    { "id": "Gadgets", "name": "Gadgets", "icon": "PocketKnife", "image": "https://images.unsplash.com/photo-1461896736544-7c9080fd4f38?w=800&q=80", "description": "Gear up for victory with professional-grade athletic equipment." },
-  ];
+  //   const  products= [
+  //   {
+  //     "id": "p1",
+  //     "name": "MacBook Pro M3 Max",
+  //     "description": "Unprecedented performance for the world's most demanding creative workflows.",
+  //     "price": 2499.00,
+  //     "category": "electronics",
+  //     "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80",
+  //     "vendor": "Apple Official",
+  //     "rating": 4.9,
+  //     "reviewsCount": 2405,
+  //     "stock": 12,
+  //     "sizes": ["14-inch", "16-inch"],
+  //     "colors": ["Space Black", "Silver"],
+  //     "material": "Recycled Aluminum",
+  //     "tags": ["Premium", "Professional", "Bestseller"]
+  //   },
+  //   {
+  //     "id": "p2",
+  //     "name": "Sony WH-1000XM5",
+  //     "description": "Leading noise cancellation and world-class sound quality.",
+  //     "price": 399.00,
+  //     "category": "electronics",
+  //     "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80",
+  //     "vendor": "Sony Authorized",
+  //     "rating": 4.8,
+  //     "reviewsCount": 1840,
+  //     "stock": 45,
+  //     "colors": ["Silver", "Black"],
+  //     "material": "Eco-friendly Plastic & Synthetic Leather",
+  //     "tags": ["Wireless", "Audio", "Noise-Cancelling"]
+  //   },
+  //   {
+  //     "id": "p3",
+  //     "name": "Luxury Silk Evening Gown",
+  //     "description": "Handcrafted pure silk gown for unforgettable moments.",
+  //     "price": 850.00,
+  //     "category": "fashion",
+  //     "image": "https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&q=80",
+  //     "vendor": "Elegance Boutique",
+  //     "rating": 4.7,
+  //     "reviewsCount": 120,
+  //     "stock": 5,
+  //     "sizes": ["XS", "S", "M", "L"],
+  //     "colors": ["Emerald Green", "Midnight Blue", "Crimson"],
+  //     "material": "100% Pure Mulberry Silk",
+  //     "tags": ["Designer", "Luxury", "Handmade"]
+  //   },
+  //   {
+  //     "id": "p4",
+  //     "name": "Leather Lounge Chair",
+  //     "description": "Ergonomic design meets mid-century modern aesthetic.",
+  //     "price": 1200.00,
+  //     "category": "home",
+  //     "image": "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=800&q=80",
+  //     "vendor": "Modern Dwelling",
+  //     "rating": 4.6,
+  //     "reviewsCount": 450,
+  //     "stock": 8,
+  //     "colors": ["Cognac", "Black", "Charcoal"],
+  //     "material": "Top-grain Leather & Solid Walnut",
+  //     "tags": ["Eames-Style", "Leather", "Home"]
+  //   },
+  //   {
+  //     "id": "p5",
+  //     "name": "iPhone 15 Pro",
+  //     "description": "Titanium design, A17 Pro chip, customizable Action button.",
+  //     "price": 999.00,
+  //     "category": "electronics",
+  //     "image": "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=800&q=80",
+  //     "vendor": "Apple Official",
+  //     "rating": 4.9,
+  //     "reviewsCount": 3200,
+  //     "stock": 25,
+  //     "tags": ["New", "Premium"]
+  //   },
+  //   {
+  //     "id": "p6",
+  //     "name": "Nike Air Max 270",
+  //     "description": "Nike's first lifestyle Air Max brings you style, comfort and big attitude.",
+  //     "price": 150.00,
+  //     "category": "fashion",
+  //     "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80",
+  //     "vendor": "StyleHub",
+  //     "rating": 4.5,
+  //     "reviewsCount": 850,
+  //     "stock": 100,
+  //     "sizes": ["6", "7", "8", "9", "10", "11", "12"],
+  //     "colors": ["White", "Black/Red", "Blue/Grey"],
+  //     "material": "Breathable Mesh & Air Sole Unit",
+  //     "tags": ["Footwear", "Sportswear"]
+  //   },
+  //   {
+  //     "id": "p7",
+  //     "name": "Ceramic Table Lamp",
+  //     "description": "Handcrafted ceramic lamp with a linen shade.",
+  //     "price": 85.00,
+  //     "category": "home",
+  //     "image": "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=800&q=80",
+  //     "vendor": "HomeDecor Co.",
+  //     "rating": 4.8,
+  //     "reviewsCount": 120,
+  //     "stock": 30,
+  //     "tags": ["Lighting", "Minimal"]
+  //   },
+  //   {
+  //     "id": "p8",
+  //     "name": "Organic Face Serum",
+  //     "description": "Restore your skin's natural glow with our organic serum.",
+  //     "price": 45.00,
+  //     "category": "beauty",
+  //     "image": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80",
+  //     "vendor": "Pure Beauty",
+  //     "rating": 4.7,
+  //     "reviewsCount": 560,
+  //     "stock": 60,
+  //     "tags": ["Organic", "Skincare"]
+  //   },
+  //   {
+  //     "id": "p9",
+  //     "name": "Smart Watch Ultra",
+  //     "description": "The most rugged and capable Apple Watch ever.",
+  //     "price": 799.00,
+  //     "category": "electronics",
+  //     "image": "https://images.unsplash.com/photo-1434493907317-a46b53b81882?w=800&q=80",
+  //     "vendor": "Apple Official",
+  //     "rating": 4.8,
+  //     "reviewsCount": 1100,
+  //     "stock": 20,
+  //     "tags": ["Outdoor", "Tech"]
+  //   },
+  //   {
+  //     "id": "p10",
+  //     "name": "Men's Wool Coat",
+  //     "description": "Classic tailoring combined with premium wool blend.",
+  //     "price": 250.00,
+  //     "category": "fashion",
+  //     "image": "https://images.unsplash.com/photo-1539533377285-a41cc5900224?w=800&q=80",
+  //     "vendor": "StyleHub",
+  //     "rating": 4.6,
+  //     "reviewsCount": 230,
+  //     "stock": 15,
+  //     "sizes": ["S", "M", "L", "XL", "XXL"],
+  //     "colors": ["Camel", "Navy", "Grey"],
+  //     "material": "80% Virgin Wool, 20% Cashmere",
+  //     "tags": ["Winter", "Classy"]
+  //   },
+  //   {
+  //     "id": "p11",
+  //     "name": "Yoga Mat Premium",
+  //     "description": "Extra thick and non-slip surface for perfect grip.",
+  //     "price": 60.00,
+  //     "category": "sports",
+  //     "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
+  //     "vendor": "Active Gear",
+  //     "rating": 4.9,
+  //     "reviewsCount": 420,
+  //     "stock": 80,
+  //     "tags": ["Fitness", "Yoga"]
+  //   },
+  //   {
+  //     "id": "p12",
+  //     "name": "Wireless Charging Pad",
+  //     "description": "Fast 15W wireless charging for all Qi-enabled devices.",
+  //     "price": 25.00,
+  //     "category": "electronics",
+  //     "image": "https://images.unsplash.com/photo-1615526675159-e248c311e3e2?w=800&q=80",
+  //     "vendor": "TechBase",
+  //     "rating": 4.4,
+  //     "reviewsCount": 2100,
+  //     "stock": 200,
+  //     "tags": ["Essential", "Tech"]
+  //   }
+  // ];
+  // const  categories= [
+  //   { "id": "electronics", "name": "Electronics", "icon": "Cpu", "image": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80", "description": "Latest gadgets and high-tech equipment for your modern lifestyle." },
+  //   { "id": "fashion", "name": "Fashion", "icon": "Shirt", "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80", "description": "Define your style with our curated collection of premium apparel." },
+  //   { "id": "home", "name": "Home & Living", "icon": "Home", "image": "https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=800&q=80", "description": "Transform your space with elegant furniture and decor." },
+  //   { "id": "beauty", "name": "Beauty", "icon": "Sparkles", "image": "https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?w=800&q=80", "description": "Premium skincare and cosmetics for your daily radiance." },
+  //   { "id": "sports", "name": "Sports", "icon": "Trophy", "image": "https://images.unsplash.com/photo-1461896736544-7c9080fd4f38?w=800&q=80", "description": "Gear up for victory with professional-grade athletic equipment." },
+  //   { "id": "Health", "name": "Health", "icon": "Heart", "image": "https://images.unsplash.com/photo-1461896736544-7c9080fd4f38?w=800&q=80", "description": "Gear up for victory with professional-grade athletic equipment." },
+  //   { "id": "Accessories", "name": "Accessories", "icon": "Cpu", "image": "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=800&q=80", "description": "Gear up for victory with professional-grade athletic equipment." },
+  //   { "id": "Gadgets", "name": "Gadgets", "icon": "PocketKnife", "image": "https://images.unsplash.com/photo-1461896736544-7c9080fd4f38?w=800&q=80", "description": "Gear up for victory with professional-grade athletic equipment." },
+  // ];
+const [categories, setCategories] = useState([]);
+const [products,setProducts]=useState([]);
+const [loading, setLoading] = useState(true);
+// fatch category
+  useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/category');
+                setCategories(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    // fetch products
+      useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/products');
+                setProducts(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
    const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const onSelectCategory=setSelectedCategory; 
