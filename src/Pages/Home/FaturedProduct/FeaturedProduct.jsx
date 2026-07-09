@@ -4,7 +4,7 @@ import { Star, ShoppingCart, Heart, Eye, X, Check, ShieldCheck, Truck, RefreshCw
 import axios from 'axios';
 import { AuthContext } from '../../../Provider/Authprovider/AuthProvider';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { cn } from '../../../lib/utils';
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 const icons = { Cpu, Shirt, Home, Sparkles, Trophy,Heart,PocketKnife };
@@ -410,12 +410,15 @@ const navigate=useNavigate();
                   <button onClick={()=>handleWishlist(product)} className="w-11 h-11 bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-full flex items-center justify-center text-gray-900 dark:text-white shadow-xl hover:bg-indigo-600 hover:text-white transition-all transform hover:scale-110">
                     <Heart size={18} />
                   </button>
+                  <Link to={`/details/${product._id || product.id}`}>
                   <button 
-                    onClick={() => setSelectedProduct(product)}
+                    
                     className="w-11 h-11 bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-full flex items-center justify-center text-gray-900 dark:text-white shadow-xl hover:bg-indigo-600 hover:text-white transition-all transform hover:scale-110"
                   >
                     <Eye size={18} />
                   </button>
+                  </Link>
+                  
                 </div>
 
                 <div className="absolute top-6 left-6 flex flex-wrap gap-1 z-10">
