@@ -22,6 +22,7 @@ import ProductAudit from '../Pages/Dashboard/RightSide/AdminRoutes/ProductAudit/
 import ReviewControl from '../Pages/Dashboard/RightSide/AdminRoutes/ReviewControl/ReviewControl';
 import UpdateProduct from '../Pages/Dashboard/RightSide/updateProduct/UpdateProduct';
 import ProductDetails from '../Pages/ProductDetails/ProductDetails';
+import Checkout from '../Pages/CheckOut/Checkout';
 
 const Router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const Router = createBrowserRouter([
       {
         path: '/details/:id',
         element: <ProductDetails></ProductDetails>
+      },
+      {
+        path:'/order/:id',
+        element:<Checkout></Checkout>
       }
     ]
   },
