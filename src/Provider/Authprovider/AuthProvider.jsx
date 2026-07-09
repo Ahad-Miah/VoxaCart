@@ -41,20 +41,48 @@ return signInWithPopup(auth, provider)
     }
 
     // ovserver
-      useEffect(() => {
-
-        const unsubscribe = onAuthStateChanged(auth, async currentUser => {
-            // console.log("currentUSer",currentUser);
+    useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+       if (currentUser && (!currentUser.displayName || !currentUser.photoURL)) {
+            // 1. Firebase-ke bolbo ektu data refresh kore nite
+            await currentUser.reload();
+            // 2. Refresh hobar por updated user ta nibo
+            const refreshedUser = auth.currentUser;
+            setUser(refreshedUser);
+        } else {
             setUser(currentUser);
-            setLoading(false);
-        
-        })
-
-        return () => {
-            unsubscribe();
         }
+        
+        setLoading(false);
 
-    }, [])
+        if (currentUser?.email && currentUser.displayName) {
+            try {
+                const userData = {
+                    name: currentUser?.displayName || "Anonymous",
+                    email: currentUser?.email,
+                    image: currentUser?.photoURL || "",
+                    role: "customer"
+                };
+
+                // Backend API call
+                const res = await axios.post(`http://localhost:5000/users/${currentUser?.email}`, userData);
+                // console.log("User tracking check:", res.data);
+                
+            } catch (error) {
+                // User already exist korle ba onno error hole ekhane handle hbe, server crash korbe na
+                if (error.response?.status === 409) {
+                    console.log("User already exists, login successful.");
+                } else {
+                    console.error("Error saving user to database:", error);
+                }
+            }
+        }
+    });
+
+    return () => {
+        unsubscribe();
+    };
+}, []);
 
     const authInfo={
        register,

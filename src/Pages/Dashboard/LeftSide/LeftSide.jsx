@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
   X, Cpu, LayoutDashboard, User, ShoppingCart, Heart, ShoppingBag,
   BarChart3, PlusCircle, Package, BrainCircuit, ShieldAlert, Users, 
   CheckSquare, FileSpreadsheet, Sliders, LogOut 
 } from 'lucide-react';
+import axios from 'axios';
+import { AuthContext } from '../../../Provider/Authprovider/AuthProvider';
 
 const LeftSide = ({ isSidebarOpen, setIsSidebarOpen }) => {
   
-  
+  const [role,setRole]=useState('');
+  const[loading,setLoading]=useState(true);
+  const {user}=useContext(AuthContext);
+
+   useEffect(() => {
+    const fetchRole = async () => {
+        // Jodi user ba email ekhon-i ready na thake, taile return kore dibe
+        if (!user?.email) return; 
+
+        try {
+            setLoading(true); // Data fetch hobar age loading true hbe
+            const response = await axios.get(`http://localhost:5000/user/role/${user.email}`);
+            setRole(response.data.role);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching role:", error);
+            setLoading(false);
+        }
+    };
+
+    fetchRole();
+}, [user]); 
+    // console.log(role);
   const sections = [
     {
       title: "User Matrix Console",
@@ -43,84 +67,95 @@ const LeftSide = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   return (
     <>
-      <aside className={`
-        fixed inset-y-0 left-0 z-50 w-72 bg-[#06070c]/95 border-r border-gray-900 backdrop-blur-2xl p-6 flex flex-col justify-between 
-        transform transition-transform duration-300 lg:translate-x-0 lg:static lg:h-screen overflow-y-auto custom-scrollbar
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        
-        <div className="space-y-7">
-         
-          <div className="flex items-center justify-between border-b border-gray-900 pb-5 shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#5046e5] to-purple-500 flex items-center justify-center shadow-[0_0_20px_rgba(124,116,255,0.3)]">
-                <Cpu className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-sm font-black font-mono text-white tracking-widest uppercase">VOXA_MAINFRAME</h2>
-                <span className="text-[8px] text-gray-600 font-mono tracking-wider block">ROLE_MANAGED_GRID</span>
-              </div>
-            </div>
+  <aside className={`
+  fixed inset-y-0 left-0 z-50 w-72 bg-[#06070c]/95 border-r border-gray-900 backdrop-blur-2xl p-6 flex flex-col justify-between 
+  transform transition-transform duration-300 lg:translate-x-0 lg:static lg:h-screen overflow-y-auto custom-scrollbar
+  ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+`}>
+  
+  <div className="space-y-7">
+   
+    <div className="flex items-center justify-between border-b border-gray-900 pb-5 shrink-0">
+      <div className="flex items-center gap-3">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#5046e5] to-purple-500 flex items-center justify-center shadow-[0_0_20px_rgba(124,116,255,0.3)]">
+          <Cpu className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h2 className="text-sm font-black font-mono text-white tracking-widest uppercase">VOXA_MAINFRAME</h2>
+          <span className="text-[8px] text-gray-600 font-mono tracking-wider block">ROLE_MANAGED_GRID</span>
+        </div>
+      </div>
+      
+      <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden text-gray-500 hover:text-white transition-colors">
+        <X className="w-5 h-5" />
+      </button>
+    </div>
+
+    <nav className="space-y-6">
+      {/* ইনডেক্স বেসড স্ট্রিক্ট ফিল্টারিং */}
+      {sections
+        .filter((_, idx) => {
+          const currentRole = role?.toLowerCase();
+
+          if (currentRole === 'customer' || currentRole === 'user') {
+            return idx === 0; // শুধু User Matrix Console দেখাবে
+          }
+          if (currentRole === 'vendor') {
+            return idx === 1; // শুধু Vendor Enterprise দেখাবে
+          }
+          if (currentRole === 'admin') {
+            return idx === 2; // শুধু Central Admin Overlord দেখাবে
+          }
+          return false;
+        })
+        .map((section, idx) => (
+          <div key={idx} className="space-y-2">
             
-            <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden text-gray-500 hover:text-white transition-colors">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          
-          <nav className="space-y-6">
-            {sections.map((section, idx) => (
-              <div key={idx} className="space-y-2">
-                
-                <span className="text-[9px] font-mono text-purple-400/70 font-bold tracking-widest uppercase block px-3">
-                  // {section.title}
-                </span>
-                
-                
-                <div className="space-y-1">
-                  {section.links.map((link, linkIdx) => {
-                    const Icon = link.icon;
-                    return (
-                      <NavLink
-                        key={linkIdx}
-                        to={link.path}
-                        end={link.end}
-                        onClick={() => setIsSidebarOpen(false)}
-                        className={({ isActive }) => `
-                          w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-mono text-[11px] font-bold tracking-wide transition-all duration-300 relative overflow-hidden group
-                          ${isActive 
-                            ? 'bg-gradient-to-r from-indigo-950/40 to-purple-950/20 border border-indigo-500/30 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]' 
-                            : 'border border-transparent text-gray-500 hover:text-gray-300 hover:bg-white/[0.01]'}
-                        `}
-                      >
-                        
-                        {({ isActive }) => (
-                          <>
-                            {isActive && (
-                              <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#7c74ff] to-purple-500 shadow-[0_0_10px_#7c74ff]" />
-                            )}
-                            <Icon className={`w-4 h-4 transition-colors duration-300 ${isActive ? 'text-[#7c74ff]' : 'text-gray-600 group-hover:text-gray-400'}`} />
-                            {link.label}
-                          </>
+            <span className="text-[9px] font-mono text-purple-400/70 font-bold tracking-widest uppercase block px-3">
+              // {section.title}
+            </span>
+            
+            <div className="space-y-1">
+              {section.links.map((link, linkIdx) => {
+                const Icon = link.icon;
+                return (
+                  <NavLink
+                    key={linkIdx}
+                    to={link.path}
+                    end={link.end}
+                    onClick={() => setIsSidebarOpen(false)}
+                    className={({ isActive }) => `
+                      w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-mono text-[11px] font-bold tracking-wide transition-all duration-300 relative overflow-hidden group
+                      ${isActive 
+                        ? 'bg-gradient-to-r from-indigo-950/40 to-purple-950/20 border border-indigo-500/30 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]' 
+                        : 'border border-transparent text-gray-500 hover:text-gray-300 hover:bg-white/[0.01]'}
+                    `}
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#7c74ff] to-purple-500 shadow-[0_0_10px_#7c74ff]" />
                         )}
-                      </NavLink>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </nav>
-        </div>
+                        <Icon className={`w-4 h-4 transition-colors duration-300 ${isActive ? 'text-[#7c74ff]' : 'text-gray-600 group-hover:text-gray-400'}`} />
+                        {link.label}
+                      </>
+                    )}
+                  </NavLink>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+    </nav>
+  </div>
 
-       
-        <div className="border-t border-gray-900 pt-4 mt-6 shrink-0">
-          <button className="w-full bg-black/40 border border-gray-900 hover:border-red-500/20 text-gray-500 hover:text-red-400 py-3 rounded-xl font-mono text-[10px] font-black tracking-widest transition-all duration-300 flex items-center justify-center gap-2NDA">
-            <LogOut className="w-3.5 h-3.5" />
-            DISCONNECT_NODE
-          </button>
-        </div>
-      </aside>
-
+  <div className="border-t border-gray-900 pt-4 mt-6 shrink-0">
+    <button className="w-full bg-black/40 border border-gray-900 hover:border-red-500/20 text-gray-500 hover:text-red-400 py-3 rounded-xl font-mono text-[10px] font-black tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
+      <LogOut className="w-3.5 h-3.5" />
+      DISCONNECT_NODE
+    </button>
+  </div>
+</aside>
       
       {isSidebarOpen && (
         <div onClick={() => setIsSidebarOpen(false)} className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden" />

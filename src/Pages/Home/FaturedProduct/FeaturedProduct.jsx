@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star, ShoppingCart, Heart, Eye, X, Check, ShieldCheck, Truck, RefreshCw, LayoutGrid, Cpu, Shirt, Home, Sparkles, Trophy, Filter, PocketKnife } from 'lucide-react';
 import axios from 'axios';
+import { AuthContext } from '../../../Provider/Authprovider/AuthProvider';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 // import { cn } from '../../../lib/utils';
 const cn = (...classes) => classes.filter(Boolean).join(" ");
 const icons = { Cpu, Shirt, Home, Sparkles, Trophy,Heart,PocketKnife };
@@ -194,6 +197,8 @@ export default function FeaturedProducts() {
 const [categories, setCategories] = useState([]);
 const [products,setProducts]=useState([]);
 const [loading, setLoading] = useState(true);
+const{user}=useContext(AuthContext);
+const navigate=useNavigate();
 // fatch category
   useEffect(() => {
         const fetchCategories = async () => {
@@ -232,6 +237,49 @@ const [loading, setLoading] = useState(true);
   const filteredProducts = selectedCategory === 'all' 
     ? products 
     : products.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
+
+    // handle wishlist
+  const handleWishlist=(product)=>{
+
+    if (!user) {
+      Swal.fire({
+        title: "You Have to Login before add!",
+        icon: "error",
+        draggable: true,
+        showCloseButton: true,
+        confirmButtonText: "Login",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login"); 
+        }
+      });
+    
+      return;
+    }
+    const wishList={
+        prductImage:product?.image,
+        productName:product?.name,
+        productId:product?._id,
+        vendor:product?.vendor,
+        vendorEmail:product?.vendorEmail,
+        price:product.price,
+        userEmail:user?.email
+  }
+
+  // axios.post(`${import.meta.env.VITE_API_URL}wishlist`,wishList)
+  //   .then(result=>{
+  //     // console.log(result);
+  //       if(result.data.insertedId){
+  //           toast.success("Property added to Wishlist Successfully");
+  //       }
+  //   });
+
+  // console.log(wishList);
+}
+
+    const handleAddCart=(product)=>{
+      // console.log(product)
+    }
 
   return (
     <section className="py-24 bg-white dark:bg-gray-950" id="shop">
@@ -359,7 +407,7 @@ const [loading, setLoading] = useState(true);
                 
                 {/* Overlay Controls */}
                 <div className="absolute top-6 right-6 flex flex-col gap-2 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 z-10">
-                  <button className="w-11 h-11 bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-full flex items-center justify-center text-gray-900 dark:text-white shadow-xl hover:bg-indigo-600 hover:text-white transition-all transform hover:scale-110">
+                  <button onClick={()=>handleWishlist(product)} className="w-11 h-11 bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-full flex items-center justify-center text-gray-900 dark:text-white shadow-xl hover:bg-indigo-600 hover:text-white transition-all transform hover:scale-110">
                     <Heart size={18} />
                   </button>
                   <button 
@@ -379,7 +427,7 @@ const [loading, setLoading] = useState(true);
                 </div>
 
                 <div className="absolute bottom-6 left-6 right-6 z-10">
-                  <button className="w-full bg-indigo-600 text-white py-3.5 rounded-2xl font-black flex items-center justify-center gap-2 shadow-2xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 italic hover:bg-indigo-700">
+                  <button onClick={()=>handleAddCart(product)} className="w-full bg-indigo-600 text-white py-3.5 rounded-2xl font-black flex items-center justify-center gap-2 shadow-2xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 italic hover:bg-indigo-700">
                     <ShoppingCart size={18} />
                     Add to Cart
                   </button>
