@@ -20,6 +20,7 @@ import ManageUsers from '../Pages/Dashboard/RightSide/AdminRoutes/ManageUsers/Ma
 import VendorApplications from '../Pages/Dashboard/RightSide/AdminRoutes/VendorApplications/VendorApplications';
 import ProductAudit from '../Pages/Dashboard/RightSide/AdminRoutes/ProductAudit/ProductAudit';
 import ReviewControl from '../Pages/Dashboard/RightSide/AdminRoutes/ReviewControl/ReviewControl';
+import UpdateProduct from '../Pages/Dashboard/RightSide/updateProduct/UpdateProduct';
 
 const Router = createBrowserRouter([
   {
@@ -107,6 +108,10 @@ const Router = createBrowserRouter([
              {
                 path:'review-control',
                 element:<ReviewControl></ReviewControl>
+            },
+            {
+              path:"updateProduct/:id",
+              element:<UpdateProduct></UpdateProduct>,
             }
         ]
      },
