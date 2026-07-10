@@ -24,6 +24,7 @@ import UpdateProduct from '../Pages/Dashboard/RightSide/updateProduct/UpdateProd
 import ProductDetails from '../Pages/ProductDetails/ProductDetails';
 import Checkout from '../Pages/CheckOut/Checkout';
 import VendorRequest from '../Pages/Dashboard/RightSide/VendorRequest/VendorRequest';
+import AllVendors from '../Pages/AllVendors/AllVendors';
 
 const Router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const Router = createBrowserRouter([
        {
         path: '/register',
         element: <Register></Register>
+      },
+      {
+        path: '/VENDORS',
+        element: <AllVendors></AllVendors>
       },
       {
         path: '/details/:id',
