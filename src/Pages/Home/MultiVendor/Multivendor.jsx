@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Star, CheckCircle, ArrowUpRight, ShoppingBag, ShieldCheck, UserPlus, X, ArrowRight, ArrowLeft, Store, FileText, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const vendors = [
   {
@@ -85,12 +86,14 @@ const MultiVendor = () => {
           
          
           <div className="flex items-center gap-4 flex-wrap">
-            <button 
-              onClick={() => setIsModalOpen(true)}
+            <Link to={'/dashboard/vendorRequests'}>
+             <button 
               className="text-xs font-black italic tracking-widest uppercase bg-[#5046e5] hover:bg-[#6359e9] text-white px-5 py-3 rounded-2xl transition duration-300 flex items-center gap-2 shadow-lg shadow-indigo-500/10 border border-indigo-500/30"
             >
               <UserPlus className="w-4 h-4" /> Apply as a Vendor
             </button>
+            </Link>
+           
             
             <button className="text-xs font-black italic tracking-widest uppercase text-gray-300 hover:text-white transition flex items-center gap-1 group py-2">
               View All Vendors 
