@@ -92,9 +92,21 @@ const AllProducts = () => {
   const receivedData = location.state;
 
   // ১. ডাটাবেজ থেকে ডাটা ফেচিং
-
+const categoriesss = ["Electronics", "Fashion", "Sports", "Home & Living", "Gadgets", "Health", "Beauty", "Accessories"];
+// console.log(location.state);
   useEffect(() => {
-    setSelectedCategory(location.state || 'All')
+ if (location.state) {
+    if (categoriesss.includes(location.state)) {
+      setSelectedCategory(location.state);
+     
+    } 
+    else {
+     
+      setSelectedCategory('All');
+      setSearchQuery(location.state); 
+    }
+}
+    
     const fetchEcosystemData = async () => {
       try {
         const prodRes = await axios.get("http://localhost:5000/products");
@@ -124,7 +136,6 @@ const AllProducts = () => {
         console.error("Data Stream Error:", error);
       }
     };
-
     fetchEcosystemData();
   }, [location.state]);
 
@@ -516,6 +527,11 @@ const AllProducts = () => {
     return result;
   }, [products, selectedCategory, searchQuery, sortBy, aiActiveFilters]);
 
+  const handleClick=(name)=>{
+    window.history.replaceState({}, document.title);
+    setSearchQuery("");
+  }
+
   return (
     <div className="bg-[#050508] text-white min-h-screen overflow-x-clip relative select-none pb-32">
       <style>{`
@@ -559,8 +575,10 @@ const AllProducts = () => {
 
               return (
                 <button
+                
                   key={cat.id}
                   onClick={() => {
+                  handleClick(cat.name);
                     setSelectedCategory(cat.name);
                     setAiActiveFilters(null);
                   }}

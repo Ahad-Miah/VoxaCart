@@ -12,7 +12,7 @@ import {
   Sparkles,
   RefreshCw,
 } from "lucide-react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/Authprovider/AuthProvider";
 
 const Navbar = () => {
@@ -111,8 +111,11 @@ const Navbar = () => {
     }
     setIsVoiceModalOpen(false);
   };
+  const navigate=useNavigate();
   const handleFindPRoducts=()=>{
-    console.log("finded");
+     navigate("/ALL PRODUCTS", { state: transcript});
+    // console.log(transcript);
+    closeVoiceModal();
   }
 
   return (
