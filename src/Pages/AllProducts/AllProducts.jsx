@@ -134,6 +134,16 @@ const handleAddToCart = async (product) => {
       confirmButtonColor: '#5046e5'
     });
   }
+  if (user?.email===product.vendorEmail) {
+    return Swal.fire({
+      icon: 'warning',
+      title: 'Cannot Add to cart',
+      text: 'Vendor cannot added his own Product!',
+      background: '#0c0d14',
+      color: '#fff',
+      confirmButtonColor: '#5046e5'
+    });
+  }
 
   try {
     // ২. ইউজার লগইন থাকলে ডাটা রেডি করা হবে
@@ -187,6 +197,16 @@ const handleAddToWishlist = async (product) => {
         confirmButtonColor: '#5046e5'
       });
     }
+    if (user?.email===product.vendorEmail) {
+    return Swal.fire({
+      icon: 'warning',
+      title: 'Cannot Add to wishlist',
+      text: 'Vendor cannot added his own Product!',
+      background: '#0c0d14',
+      color: '#fff',
+      confirmButtonColor: '#5046e5'
+    });
+  }
   try {
     const wishItem = {
       productId: product._id || product.id,

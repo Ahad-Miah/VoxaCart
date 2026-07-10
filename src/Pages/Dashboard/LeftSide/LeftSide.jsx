@@ -60,7 +60,7 @@ const LeftSide = ({ isSidebarOpen, setIsSidebarOpen }) => {
         { path: "/dashboard/admin-overview", label: "System Overview", icon: ShieldAlert },
         { path: "/dashboard/manage-users", label: "Manage Users Grid", icon: Users },
         { path: "/dashboard/vendor-apps", label: "Vendor Applications", icon: CheckSquare },
-        { path: "/dashboard/product-audit", label: "Product Audit Node", icon: FileSpreadsheet },
+        { path: "/dashboard/all-vendors", label: "All Vendors", icon: FileSpreadsheet },
         { path: "/dashboard/review-control", label: "Review Controllers", icon: Sliders },
       ]
     }
@@ -93,61 +93,93 @@ const LeftSide = ({ isSidebarOpen, setIsSidebarOpen }) => {
     </div>
 
     <nav className="space-y-6">
-      {/* ইনডেক্স বেসড স্ট্রিক্ট ফিল্টারিং */}
-      {sections
-        .filter((_, idx) => {
-          const currentRole = role?.toLowerCase();
+  {/* ইনডেক্স বেসড স্ট্রিক্ট ফিল্টারিং */}
+  {sections
+    .filter((_, idx) => {
+      const currentRole = role?.toLowerCase();
 
-          if (currentRole === 'customer' || currentRole === 'user') {
-            return idx === 0; // শুধু User Matrix Console দেখাবে
-          }
-          if (currentRole === 'vendor') {
-            return idx === 1; // শুধু Vendor Enterprise দেখাবে
-          }
-          if (currentRole === 'admin') {
-            return idx === 2; // শুধু Central Admin Overlord দেখাবে
-          }
-          return false;
-        })
-        .map((section, idx) => (
-          <div key={idx} className="space-y-2">
-            
-            <span className="text-[9px] font-mono text-purple-400/70 font-bold tracking-widest uppercase block px-3">
-              // {section.title}
-            </span>
-            
-            <div className="space-y-1">
-              {section.links.map((link, linkIdx) => {
-                const Icon = link.icon;
-                return (
-                  <NavLink
-                    key={linkIdx}
-                    to={link.path}
-                    end={link.end}
-                    onClick={() => setIsSidebarOpen(false)}
-                    className={({ isActive }) => `
-                      w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-mono text-[11px] font-bold tracking-wide transition-all duration-300 relative overflow-hidden group
-                      ${isActive 
-                        ? 'bg-gradient-to-r from-indigo-950/40 to-purple-950/20 border border-indigo-500/30 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]' 
-                        : 'border border-transparent text-gray-500 hover:text-gray-300 hover:bg-white/[0.01]'}
-                    `}
-                  >
-                    {({ isActive }) => (
-                      <>
-                        {isActive && (
-                          <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#7c74ff] to-purple-500 shadow-[0_0_10px_#7c74ff]" />
-                        )}
-                        <Icon className={`w-4 h-4 transition-colors duration-300 ${isActive ? 'text-[#7c74ff]' : 'text-gray-600 group-hover:text-gray-400'}`} />
-                        {link.label}
-                      </>
-                    )}
-                  </NavLink>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-    </nav>
+      if (currentRole === 'customer' || currentRole === 'user') {
+        return idx === 0; // শুধু User Matrix Console দেখাবে
+      }
+
+      if (currentRole === 'vendor') {
+        return idx === 0 || idx === 1; // Customer + Vendor দেখাবে
+      }
+
+      if (currentRole === 'admin') {
+        return idx === 2; // শুধু Central Admin Overlord দেখাবে
+      }
+
+      return false;
+    })
+    .map((section, idx) => (
+      <div key={idx} className="space-y-2">
+
+        <span className="text-[9px] font-mono text-purple-400/70 font-bold tracking-widest uppercase block px-3">
+          // {section.title}
+        </span>
+
+        <div className="space-y-1">
+
+          {section.links
+            .filter((link) => {
+              const currentRole = role?.toLowerCase();
+
+              // vendor হলে vendorRequests hide হবে
+              if (
+                currentRole === "vendor" &&
+                link.path === "/dashboard/vendorRequests"
+              ) {
+                return false;
+              }
+
+              // অন্য সবাই দেখতে পারবে
+              return true;
+            })
+            .map((link, linkIdx) => {
+
+              const Icon = link.icon;
+
+              return (
+                <NavLink
+                  key={linkIdx}
+                  to={link.path}
+                  end={link.end}
+                  onClick={() => setIsSidebarOpen(false)}
+                  className={({ isActive }) => `
+                    w-full flex items-center gap-3.5 px-4 py-3 rounded-xl font-mono text-[11px] font-bold tracking-wide transition-all duration-300 relative overflow-hidden group
+                    ${
+                      isActive
+                        ? 'bg-gradient-to-r from-indigo-950/40 to-purple-950/20 border border-indigo-500/30 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]'
+                        : 'border border-transparent text-gray-500 hover:text-gray-300 hover:bg-white/[0.01]'
+                    }
+                  `}
+                >
+                  {({ isActive }) => (
+                    <>
+                      {isActive && (
+                        <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gradient-to-b from-[#7c74ff] to-purple-500 shadow-[0_0_10px_#7c74ff]" />
+                      )}
+
+                      <Icon
+                        className={`w-4 h-4 transition-colors duration-300 ${
+                          isActive
+                            ? 'text-[#7c74ff]'
+                            : 'text-gray-600 group-hover:text-gray-400'
+                        }`}
+                      />
+
+                      {link.label}
+                    </>
+                  )}
+                </NavLink>
+              );
+            })}
+
+        </div>
+      </div>
+    ))}
+</nav>
   </div>
 
   <div className="border-t border-gray-900 pt-4 mt-6 shrink-0">

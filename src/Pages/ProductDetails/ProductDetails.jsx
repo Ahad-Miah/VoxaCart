@@ -74,6 +74,16 @@ const ProductDetails = () => {
         confirmButtonColor: '#5046e5'
       });
     }
+    if (user?.email===product.vendorEmail) {
+        return Swal.fire({
+          icon: 'warning',
+          title: 'Cannot Add to cart',
+          text: 'Vendor cannot added his own Product!',
+          background: '#0c0d14',
+          color: '#fff',
+          confirmButtonColor: '#5046e5'
+        });
+      }
 
     try {
       const cartItem = {
@@ -119,6 +129,16 @@ const ProductDetails = () => {
         confirmButtonColor: '#5046e5'
       });
     }
+    if (user?.email===product.vendorEmail) {
+    return Swal.fire({
+      icon: 'warning',
+      title: 'Cannot Add to Wishlist',
+      text: 'Vendor cannot added his own Product!',
+      background: '#0c0d14',
+      color: '#fff',
+      confirmButtonColor: '#5046e5'
+    });
+  }
 
     try {
       const wishItem = {
@@ -153,6 +173,16 @@ const ProductDetails = () => {
     if (!user || !user?.email) {
       return Swal.fire({ text: 'Please login to drop a matrix review.', icon: 'warning', background: '#0c0d14', color: '#fff' });
     }
+    if (user?.email===product.vendorEmail) {
+    return Swal.fire({
+      icon: 'warning',
+      title: 'Error',
+      text: 'Vendor cannot reviews his own Product!',
+      background: '#0c0d14',
+      color: '#fff',
+      confirmButtonColor: '#5046e5'
+    });
+  }
     if (!reviewText.trim()) return;
 
     // আপনার রিকোয়ার্ড স্ট্রাকচার অনুযায়ী রিয়েল ইউজার ডেটা অবজেক্ট
@@ -350,7 +380,7 @@ const ProductDetails = () => {
                 <Heart className="w-3.5 h-3.5 md:w-4 h-4" /> Wishlist Lock
               </button>
               <Link to={`/order/${product._id || product.id}`}>
-               <button 
+               <button disabled={user?.email == product.vendorEmail}
                 className="w-full py-3 md:py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 opacity-80 hover:opacity-100 text-[11px] md:text-xs font-black tracking-widest text-white uppercase transition-all duration-300 cursor-not-allowed"
               >
                 Instant Buy

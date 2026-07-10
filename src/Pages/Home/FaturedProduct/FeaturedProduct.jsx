@@ -250,6 +250,16 @@ const navigate=useNavigate();
       confirmButtonColor: '#5046e5'
     });
   }
+  if (user?.email===product.vendorEmail) {
+    return Swal.fire({
+      icon: 'warning',
+      title: 'Cannot Add to Wishlist',
+      text: 'Vendor cannot added his own Product!',
+      background: '#0c0d14',
+      color: '#fff',
+      confirmButtonColor: '#5046e5'
+    });
+  }
   try {
     const wishItem = {
       productId: product._id || product.id,
@@ -313,6 +323,16 @@ const navigate=useNavigate();
       icon: 'warning',
       title: 'Login Required',
       text: 'Please login first to add products to your cyber cart!',
+      background: '#0c0d14',
+      color: '#fff',
+      confirmButtonColor: '#5046e5'
+    });
+  }
+  if (user?.email===product.vendorEmail) {
+    return Swal.fire({
+      icon: 'warning',
+      title: 'Cannot Add to cart',
+      text: 'Vendor cannot added his own Product!',
       background: '#0c0d14',
       color: '#fff',
       confirmButtonColor: '#5046e5'
