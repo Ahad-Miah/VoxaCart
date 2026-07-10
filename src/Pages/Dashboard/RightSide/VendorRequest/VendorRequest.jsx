@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { User, Store, MapPin, FileText, CheckCircle, ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
+import { User, Store, MapPin, FileText, CheckCircle, ChevronRight, ChevronLeft, Loader2, X, CheckCircle2, CircleX } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../../../Provider/Authprovider/AuthProvider';
 
@@ -11,6 +11,7 @@ const VendorRequest = () => {
   const [imgLoading, setImgLoading] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const IMGBB_API_KEY = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+  const [request,Setrequest]=useState("");
   
   const [formData, setFormData] = useState({
     phone: '',
@@ -32,7 +33,9 @@ const VendorRequest = () => {
   useEffect(() => {
     if (user?.email) {
       axios.get(`http://localhost:5000/vendor-requests/${user.email}`)
-        .then(res => { if (res.data) setHasApplied(true); })
+        .then(res => { 
+          Setrequest(res.data);
+          if (res.data) setHasApplied(true); })
         .catch(err => console.log(err));
     }
   }, [user?.email]);
@@ -60,7 +63,7 @@ const VendorRequest = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setLoading(true);
     const finalData = { ...formData, name: user?.displayName, email: user?.email };
     try {
@@ -75,8 +78,10 @@ const VendorRequest = () => {
   if (hasApplied) {
     return (
       <div className="max-w-2xl mx-auto p-10 mt-20 text-center bg-[#08090e] border border-gray-900 rounded-[32px]">
-        <CheckCircle className="w-20 h-20 text-emerald-500 mx-auto mb-6" />
-        <h2 className="text-2xl font-black text-white uppercase">Application Pending</h2>
+        {
+          request?.status==="pending"?<CheckCircle2 className="w-20 h-20 text-emerald-500 mx-auto mb-6" />:<CircleX  className="w-20 h-20 text-red-400 mx-auto mb-6"  />
+        }
+        <h2 className="text-2xl font-black text-white uppercase">Application {request?.status}</h2>
         <p className="text-gray-500 mt-4">Your vendor request is under review. Please wait for admin approval.</p>
       </div>
     );
