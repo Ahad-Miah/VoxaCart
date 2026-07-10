@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { 
   X, Cpu, LayoutDashboard, User, ShoppingCart, Heart, ShoppingBag,
   BarChart3, PlusCircle, Package, BrainCircuit, ShieldAlert, Users, 
@@ -151,10 +151,13 @@ const LeftSide = ({ isSidebarOpen, setIsSidebarOpen }) => {
   </div>
 
   <div className="border-t border-gray-900 pt-4 mt-6 shrink-0">
+    <Link to={'/'}>
     <button className="w-full bg-black/40 border border-gray-900 hover:border-red-500/20 text-gray-500 hover:text-red-400 py-3 rounded-xl font-mono text-[10px] font-black tracking-widest transition-all duration-300 flex items-center justify-center gap-2">
       <LogOut className="w-3.5 h-3.5" />
       DISCONNECT_NODE
     </button>
+    </Link>
+    
   </div>
 </aside>
       
