@@ -239,47 +239,125 @@ const navigate=useNavigate();
     : products.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
 
     // handle wishlist
-  const handleWishlist=(product)=>{
-
-    if (!user) {
-      Swal.fire({
-        title: "You Have to Login before add!",
-        icon: "error",
-        draggable: true,
-        showCloseButton: true,
-        confirmButtonText: "Login",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login"); 
-        }
-      });
+ const handleAddToWishlist = async (product) => {
+  if (!user || !user?.email) {
+    return Swal.fire({
+      icon: 'warning',
+      title: 'Login Required',
+      text: 'Please login first to add products to your cyber cart!',
+      background: '#0c0d14',
+      color: '#fff',
+      confirmButtonColor: '#5046e5'
+    });
+  }
+  try {
+    const wishItem = {
+      productId: product._id || product.id,
+      userEmail: user?.email,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      rating: product.rating,
+      category: product.category
+    };
     
-      return;
+    const response = await axios.post('http://localhost:5000/wishlist', wishItem);
+    
+    
+    if (response.data.insertedId || response.data.acknowledged) {
+      Swal.fire({ 
+        toast: true, 
+        position: 'top-end', 
+        icon: 'success', 
+        title: 'Locked into Wishlist!', 
+        showConfirmButton: false, 
+        timer: 2000, 
+        background: '#0c0d14', 
+        color: '#fff' 
+      });
     }
-    const wishList={
-        prductImage:product?.image,
-        productName:product?.name,
-        productId:product?._id,
-        vendor:product?.vendor,
-        vendorEmail:product?.vendorEmail,
-        price:product.price,
-        userEmail:user?.email
+  } catch (error) {
+    
+    if (error.response && error.response.status === 409) {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'warning',
+        title: error.response.data.message || 'Already in Wishlist!',
+        showConfirmButton: false,
+        timer: 2500,
+        background: '#0c0d14',
+        color: '#ffc107'
+      });
+    } else {
+    
+      console.error(error);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: 'Failed to sync wishlist.',
+        showConfirmButton: false,
+        timer: 2000,
+        background: '#0c0d14',
+        color: '#fff'
+      });
+    }
+  }
+};
+
+   const handleAddToCart = async (product) => {
+  // ১. চেক করা হচ্ছে ইউজার লগইন করা আছে কি না
+  if (!user || !user?.email) {
+    return Swal.fire({
+      icon: 'warning',
+      title: 'Login Required',
+      text: 'Please login first to add products to your cyber cart!',
+      background: '#0c0d14',
+      color: '#fff',
+      confirmButtonColor: '#5046e5'
+    });
   }
 
-  // axios.post(`${import.meta.env.VITE_API_URL}wishlist`,wishList)
-  //   .then(result=>{
-  //     // console.log(result);
-  //       if(result.data.insertedId){
-  //           toast.success("Property added to Wishlist Successfully");
-  //       }
-  //   });
+  try {
+    const cartItem = {
+      productId: product._id || product.id,
+      userEmail: user?.email, 
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      category: product.category,
+      rating: product.rating
+    };
 
-  // console.log(wishList);
-}
+    const response = await axios.post('http://localhost:5000/cart', cartItem);
 
-    const handleAddCart=(product)=>{
-      // console.log(product)
+    if (response.data.success) {
+      Swal.fire({ 
+        toast: true, 
+        position: 'top-end', 
+        icon: 'success', 
+        title: response.data.message || 'Cart Synced Successfully!', 
+        showConfirmButton: false, 
+        timer: 2000, 
+        background: '#0c0d14', 
+        color: '#fff' 
+      });
     }
+  } catch (error) {
+    console.error("Cart Error:", error);
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      icon: 'error',
+      title: 'Failed to add item to cart.',
+      showConfirmButton: false,
+      timer: 2000,
+      background: '#0c0d14',
+      color: '#fff'
+    });
+  }
+};
 
   return (
     <section className="py-24 bg-white dark:bg-gray-950" id="shop">
@@ -407,7 +485,7 @@ const navigate=useNavigate();
                 
                 {/* Overlay Controls */}
                 <div className="absolute top-6 right-6 flex flex-col gap-2 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 z-10">
-                  <button onClick={()=>handleWishlist(product)} className="w-11 h-11 bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-full flex items-center justify-center text-gray-900 dark:text-white shadow-xl hover:bg-indigo-600 hover:text-white transition-all transform hover:scale-110">
+                  <button onClick={()=>handleAddToWishlist(product)} className="w-11 h-11 bg-white/90 dark:bg-gray-900/90 backdrop-blur rounded-full flex items-center justify-center text-gray-900 dark:text-white shadow-xl hover:bg-indigo-600 hover:text-white transition-all transform hover:scale-110">
                     <Heart size={18} />
                   </button>
                   <Link to={`/details/${product._id || product.id}`}>
@@ -430,7 +508,7 @@ const navigate=useNavigate();
                 </div>
 
                 <div className="absolute bottom-6 left-6 right-6 z-10">
-                  <button onClick={()=>handleAddCart(product)} className="w-full bg-indigo-600 text-white py-3.5 rounded-2xl font-black flex items-center justify-center gap-2 shadow-2xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 italic hover:bg-indigo-700">
+                  <button onClick={()=>handleAddToCart(product)} className="w-full bg-indigo-600 text-white py-3.5 rounded-2xl font-black flex items-center justify-center gap-2 shadow-2xl opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 italic hover:bg-indigo-700">
                     <ShoppingCart size={18} />
                     Add to Cart
                   </button>

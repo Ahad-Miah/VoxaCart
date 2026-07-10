@@ -177,6 +177,16 @@ const handleAddToCart = async (product) => {
 };
 
 const handleAddToWishlist = async (product) => {
+  if (!user || !user?.email) {
+      return Swal.fire({
+        icon: 'warning',
+        title: 'Login Required',
+        text: 'Please login first to add products to your cyber cart!',
+        background: '#0c0d14',
+        color: '#fff',
+        confirmButtonColor: '#5046e5'
+      });
+    }
   try {
     const wishItem = {
       productId: product._id || product.id,
