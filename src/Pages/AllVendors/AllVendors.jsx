@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Star, CheckCircle, ShoppingBag, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const AllVendors = () => {
   const [vendors, setVendors] = useState([]);
@@ -76,9 +77,12 @@ const AllVendors = () => {
                          <span className="text-[10px] font-black italic tracking-widest text-gray-500 uppercase flex items-center gap-1">
                            <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" /> AI Logistics
                          </span>
+                         <Link to={`/shop/${vendor._id}`}>
                          <button className="text-xs font-black italic tracking-wide text-[#7c74ff] group-hover:text-white bg-indigo-500/5 group-hover:bg-[#5046e5] border border-indigo-500/20 px-4 py-2 rounded-xl transition-all duration-300">
                            Visit Store
                          </button>
+                         </Link>
+                         
                        </div>
                      </div>
                    ))

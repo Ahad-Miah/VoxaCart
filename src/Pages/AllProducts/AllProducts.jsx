@@ -513,9 +513,6 @@ const categoriesss = ["Electronics", "Fashion", "Sports", "Home & Living", "Gadg
           (typeof p.tags === "string" && p.tags.toLowerCase().includes(q)),
       );
     }
-
-    // জেনারেল নরমাল সর্টিং (যখন AI Active থাকবে না)
-
     if (!aiActiveFilters) {
       if (sortBy === "lowToHigh") {
         result.sort((a, b) => a.price - b.price);

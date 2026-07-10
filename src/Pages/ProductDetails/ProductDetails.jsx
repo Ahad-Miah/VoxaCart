@@ -380,7 +380,7 @@ const ProductDetails = () => {
                 <Heart className="w-3.5 h-3.5 md:w-4 h-4" /> Wishlist Lock
               </button>
               <Link to={`/order/${product._id || product.id}`}>
-               <button disabled={user?.email == product.vendorEmail}
+               <button disabled={user?.email == product.vendorEmail ||!user?.email}
                 className="w-full py-3 md:py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 opacity-80 hover:opacity-100 text-[11px] md:text-xs font-black tracking-widest text-white uppercase transition-all duration-300 cursor-not-allowed"
               >
                 Instant Buy
