@@ -42,6 +42,7 @@ const LeftSide = ({ isSidebarOpen, setIsSidebarOpen }) => {
         { path: "/dashboard/cart", label: "My Cart Node", icon: ShoppingCart },
         { path: "/dashboard/wishlist", label: "Wishlist Vault", icon: Heart },
         { path: "/dashboard/orders", label: "Order History", icon: ShoppingBag },
+        { path: "/dashboard/vendorRequests", label: "Vendor Request", icon: ShoppingBag },
       ]
     },
     {

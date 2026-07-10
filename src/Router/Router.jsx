@@ -23,6 +23,7 @@ import ReviewControl from '../Pages/Dashboard/RightSide/AdminRoutes/ReviewContro
 import UpdateProduct from '../Pages/Dashboard/RightSide/updateProduct/UpdateProduct';
 import ProductDetails from '../Pages/ProductDetails/ProductDetails';
 import Checkout from '../Pages/CheckOut/Checkout';
+import VendorRequest from '../Pages/Dashboard/RightSide/VendorRequest/VendorRequest';
 
 const Router = createBrowserRouter([
   {
@@ -82,6 +83,10 @@ const Router = createBrowserRouter([
             {
                 path:'orders',
                 element:<Orders></Orders>
+            },
+            {
+              path:'vendorRequests',
+              element:<VendorRequest></VendorRequest>
             },
             {
                 path:'vendor-stats',
