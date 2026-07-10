@@ -16,7 +16,7 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/Authprovider/AuthProvider";
 
 const Navbar = () => {
-  const navLinks = ["HOME", "ALL PRODUCTS", "PROTOCOL", "VENDORS", "SUPPORT"];
+  const navLinks = ["HOME", "ALL PRODUCTS", "PROTOCOL", "VENDORS"];
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 
@@ -29,7 +29,6 @@ const Navbar = () => {
   const recognitionRef = useRef(null);
 
   const { Signout, user, loading } = useContext(AuthContext);
-  console.log(user);
   useEffect(() => {
     const root = window.document.documentElement;
     if (isDarkMode) {
@@ -112,6 +111,9 @@ const Navbar = () => {
     }
     setIsVoiceModalOpen(false);
   };
+  const handleFindPRoducts=()=>{
+    console.log("finded");
+  }
 
   return (
     <>
@@ -277,74 +279,99 @@ const Navbar = () => {
       </nav>
 
       {/* --- MOBILE DRAWER --- */}
-      <div
-        className={`fixed inset-0 bg-black/60 z-50 transition-opacity duration-300 lg:hidden ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+     {/* --- MOBILE DRAWER --- */}
+<div
+  className={`fixed inset-0 bg-black/60 z-50 transition-opacity duration-300 lg:hidden ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+  onClick={() => setIsOpen(false)}
+/>
+<div
+  className={`fixed top-0 right-0 bottom-0 z-50 w-72 bg-white dark:bg-[#0d0d14] border-l border-gray-200 dark:border-gray-900 p-6 transform transition-transform duration-300 ease-in-out shadow-2xl lg:hidden flex flex-col justify-between ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+>
+  <div>
+    <div className="flex justify-end mb-6">
+      <button
         onClick={() => setIsOpen(false)}
-      />
-      <div
-        className={`fixed top-0 right-0 bottom-0 z-50 w-72 bg-white dark:bg-[#0d0d14] border-l border-gray-200 dark:border-gray-900 p-6 transform transition-transform duration-300 ease-in-out shadow-2xl lg:hidden flex flex-col justify-between ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className="text-gray-500 dark:text-gray-400 hover:text-white"
       >
-        <div>
-          <div className="flex justify-end mb-6">
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-gray-500 dark:text-gray-400 hover:text-white"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-          <div className="bg-gray-100 dark:bg-[#161922] border border-gray-200 dark:border-gray-800 rounded-2xl p-3 flex items-center space-x-4 mb-8">
-            <img
-              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-              alt="Avatar"
-              className="w-12 h-12 rounded-xl object-cover"
-            />
+        <X className="w-6 h-6" />
+      </button>
+    </div>
+
+    {/* মোবাইল প্রোফাইল ও ড্রপডাউন সেকশন */}
+    {user ? (
+      <div className="mb-8">
+        <div 
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          className="bg-gray-100 dark:bg-[#161922] border border-gray-200 dark:border-gray-800 rounded-2xl p-3 flex items-center justify-between cursor-pointer"
+        >
+          <div className="flex items-center space-x-3">
+            <img src={user?.photoURL || "https://via.placeholder.com/150"} alt="Avatar" className="w-10 h-10 rounded-xl object-cover" />
             <div className="flex flex-col text-left">
-              <span className="text-[9px] text-gray-400 dark:text-gray-500 font-black italic tracking-widest leading-none mb-0.5">
-                WELCOME
-              </span>
-              <span className="text-sm font-black italic text-white tracking-wide">
-                Ahad Ahmed
-              </span>
+              <span className="text-[9px] text-gray-400 dark:text-gray-500 font-black italic tracking-widest uppercase">Active</span>
+              <span className="text-sm font-black italic text-gray-900 dark:text-white">{user?.displayName}</span>
             </div>
           </div>
-          <div className="flex flex-col space-y-5 text-sm font-black italic tracking-wider text-gray-500 dark:text-gray-400">
-            {navLinks.map((link) => (
-              <a
-                key={link}
-                href={`#${link.toLowerCase().replace(" ", "-")}`}
-                onClick={() => setIsOpen(false)}
-                className="hover:text-gray-900 dark:hover:text-white block py-1"
-              >
-                {link}
-              </a>
-            ))}
-          </div>
+          <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
         </div>
-        <div className="border-t border-gray-200 dark:border-gray-900 pt-6">
-          <div className="flex items-center justify-around text-gray-500 dark:text-gray-400">
-            <button
-              onClick={openVoiceModal}
-              className="hover:text-gray-900 dark:hover:text-white flex flex-col items-center space-y-1"
+
+        {isDropdownOpen && (
+          <div className="mt-2 bg-[#161922] border border-gray-800 rounded-xl p-1.5 animate-fadeIn">
+            <Link
+              to="/dashboard"
+              onClick={() => { setIsDropdownOpen(false); setIsOpen(false); }}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold text-gray-400 hover:text-white hover:bg-white/[0.02]"
             >
-              <Mic className="w-5 h-5" />
-              <span className="text-[10px] font-bold italic">Voice</span>
-            </button>
-            <div className="h-6 w-[1px] bg-gray-200 dark:bg-gray-800"></div>
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="hover:text-gray-900 dark:hover:text-white flex flex-col items-center space-y-1"
-            >
-              {isDarkMode ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-              <span className="text-[10px] font-bold italic">Theme</span>
-            </button>
+              <LayoutDashboard className="w-4 h-4 text-[#7c74ff]" />
+              CORE_DASHBOARD
+            </Link>
           </div>
-        </div>
+        )}
       </div>
+    ) : (
+      <div className="mb-8">
+        <Link to="/login" onClick={() => setIsOpen(false)}>
+           <div className="bg-[#5046e5] text-center text-white p-3 rounded-2xl font-bold">LOGIN</div>
+        </Link>
+      </div>
+    )}
+
+    <div className="flex flex-col space-y-5 text-sm font-black italic tracking-wider text-gray-500 dark:text-gray-400">
+      {navLinks.map((link, idx) => (
+        <NavLink
+          key={idx}
+          className={({ isActive }) => isActive ? "text-white font-bold text-[16px] underline" : ""}
+          to={`/${link == "HOME" ? "" : link}`}
+          onClick={() => setIsOpen(false)}
+        >
+          <p className="hover:text-gray-900 dark:hover:text-white transition duration-200">{link}</p>
+        </NavLink>
+      ))}
+    </div>
+  </div>
+
+  <div className="border-t border-gray-200 dark:border-gray-900 pt-6">
+    <div className="flex items-center justify-around text-gray-500 dark:text-gray-400">
+      <button onClick={openVoiceModal} className="hover:text-gray-900 dark:hover:text-white flex flex-col items-center space-y-1">
+        <Mic className="w-5 h-5" />
+        <span className="text-[10px] font-bold italic">Voice</span>
+      </button>
+      <div className="h-6 w-[1px] bg-gray-200 dark:bg-gray-800"></div>
+      <button onClick={() => setIsDarkMode(!isDarkMode)} className="hover:text-gray-900 dark:hover:text-white flex flex-col items-center space-y-1">
+        {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        <span className="text-[10px] font-bold italic">Theme</span>
+      </button>
+      {user && (
+        <>
+            <div className="h-6 w-[1px] bg-gray-200 dark:bg-gray-800"></div>
+            <button onClick={Signout} className="hover:text-red-500 flex flex-col items-center space-y-1">
+                <LogOut className="w-5 h-5" />
+                <span className="text-[10px] font-bold italic">Logout</span>
+            </button>
+        </>
+      )}
+    </div>
+  </div>
+</div>
 
       {/* --- UI EXACT MATCH VOICE MODAL (image_6e8d5a.png) --- */}
       {isVoiceModalOpen && (
@@ -432,7 +459,7 @@ const Navbar = () => {
 
             {/* Find Products Button */}
             <button
-              onClick={closeVoiceModal}
+              onClick={()=>closeVoiceModal,handleFindPRoducts}
               className="w-full max-w-[200px] bg-white text-gray-900 font-extrabold rounded-full py-3 px-6 hover:bg-gray-100 shadow-xl transition-all duration-200 text-sm tracking-wide mb-8"
             >
               Find Products

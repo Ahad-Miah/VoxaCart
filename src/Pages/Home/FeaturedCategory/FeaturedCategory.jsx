@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Laptop, Shirt, Home, Sparkles, Trophy, Heart, Watch, Camera ,Star, ShoppingCart,  Eye, X, Check, ShieldCheck, Truck, RefreshCw, LayoutGrid, Cpu,    Filter, PocketKnife} from 'lucide-react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 // const categories = [
 //   { id: 1, name: 'Electronics', count: '120+', icon: <Laptop className="w-5 h-5" />, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop' },
@@ -61,6 +62,10 @@ const FeaturedCategory = () => {
       sliderRef.current.scrollBy({ left: offset, behavior: 'smooth' });
     }
   };
+  const navigate=useNavigate();
+  const handleNavigate=(category)=>{
+            navigate("/ALL PRODUCTS", { state: category?.name });
+  }
 
   return (
     <section className="bg-[#09090d] text-white py-16 px-6 md:px-12 overflow-hidden select-none">
@@ -112,7 +117,7 @@ const FeaturedCategory = () => {
           {categories.map((category) =>{
           const Icon = icons[category.icon] || Cpu;
             return(
-               <div 
+               <div onClick={()=>handleNavigate(category)}
               key={category.id}
               className="min-w-[260px] sm:min-w-[280px] h-[360px] relative rounded-[32px] overflow-hidden group snap-start border border-gray-950 shadow-2xl transition-all duration-500 hover:scale-[1.02]"
             >
