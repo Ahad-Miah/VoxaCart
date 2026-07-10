@@ -225,7 +225,7 @@ const handleAiBoost = async (product) => {
           </div>
 
           <Link
-            to="/add-product"
+            to="/dashboard/add-product"
             className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shadow-lg transition-all"
           >
             <PlusCircle className="w-4 h-4" /> Add AI Product

@@ -25,7 +25,7 @@ const AllVendorss = () => {
   return (
     <section className="bg-[#09090d] min-h-screen text-white py-12 px-4 md:px-12">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-black italic mb-8 text-white">VENDOR <span className="text-[#7c74ff]">APPLICATIONS</span></h2>
+        <h2 className="text-3xl font-black italic mb-8 text-white">All<span className="text-[#7c74ff]">Vendors</span></h2>
 
         {/* Slim Table Rows */}
         <div className="bg-[#11131c] border border-gray-800 rounded-3xl overflow-hidden shadow-2xl">
